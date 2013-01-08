@@ -1,0 +1,35 @@
+{
+    "name": "gianarb/ga-blog",
+    "description": "Module for manage a Blog.",
+    "type": "zf-module",
+    "license": "MIT",
+    "keywords": [
+        "blog",
+        "zf2",
+        "module",
+        "doctrine"
+    ],
+    "homepage": "https://github.com/GianArb/GaBlog",
+    "author":
+    {
+        "name": "Gianluca Arbezzano",
+        "email": "gianarb92@gmail.com",
+        "homepage": "http://www.gianarb.it/"
+    },
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "2.*",
+        "doctrine/doctrine-orm-module": "0.*"
+    },
+    "require-dev": {
+        "zendframework/zend-developer-tools": "dev-master"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "psr-0": {
+            "GaBlog": "src/"
+        }
+    }
+}
