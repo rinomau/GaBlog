@@ -231,6 +231,10 @@ class Article
         return $this;
     }
 
+    /**
+     * @param $i
+     * @return $this
+     */
     function setIdUser($i)
     {
         $this->idUser = $i;
