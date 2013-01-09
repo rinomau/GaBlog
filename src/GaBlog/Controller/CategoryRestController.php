@@ -21,13 +21,12 @@ class CategoryRestController
 
     }
 
-    public function create($jsonDate)
+    public function create($data)
     {
-        var_dump($jsonDate);die();
-        $date = json_decode($jsonDate, true);
+        die(var_dump($data));
         $category = new Category();
-        $category->setName($date['title'])
-            ->setTag($date['tag'])
+        $category->setName($data['title'])
+            ->setTag($data['tag'])
             ->setDescription($data['description'])
             ->setIdUser($data['idUser']);
         $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->persist($category);
