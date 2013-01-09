@@ -24,7 +24,7 @@ class CategoryRestController
     public function create($jsonDate)
     {
         var_dump($jsonDate);die();
-        $date = json_decode($jsonDate, false);
+        $date = json_decode($jsonDate, true);
         $category = new Category();
         $category->setName($date['title'])
             ->setTag($date['tag'])
