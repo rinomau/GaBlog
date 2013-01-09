@@ -2,18 +2,27 @@
 return array(
     'router' => array(
         'routes' => array(
-            'base' => array(
-                'type'    => 'Segment',
+            'post-rest' => array(
+                'type' => 'segment',
                 'options' => array(
-                    'route'    => '/[:controller[/:action[/:id]]]',
+                    'route' => '/post/[:id]',
                     'constraints' => array(
-                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'idCategory' => '[a-zA-Z0-9_-]*'
+                        'id' => '[0-9]+',
                     ),
                     'defaults' => array(
-                        'controller' => 'index',
-                        'action'     => 'index',
+                        'controller' => 'post',
+                    ),
+                ),
+            ),
+            'post-rest' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'route' => '/category[/:id]',
+                    'constraints' => array(
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'CategoryRest',
                     ),
                 ),
             ),
@@ -21,9 +30,8 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'blog' => 'GaBlog\Controller\IndexController',
-            'article' => 'GaBlog\Controller\BackendController',
-            'category' => 'GaBlog\Controller\CategoryController',
+            'post' => 'GaBlog\Controller\PostRestController',
+            'CategoryRest' => 'GaBlog\Controller\CategoryRestController',
         ),
     ),
     'view_manager' => array(
