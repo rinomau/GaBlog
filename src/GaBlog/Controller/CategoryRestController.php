@@ -23,7 +23,6 @@ class CategoryRestController
 
     public function create($data)
     {
-        die(var_dump($data));
         $category = new Category();
         $category->setName($data['title'])
             ->setTag($data['tag'])

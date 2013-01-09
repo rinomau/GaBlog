@@ -3,9 +3,9 @@ namespace GaBlog\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity @ORM\Table(name="gablog_article")
+ * @ORM\Entity @ORM\Table(name="gablog_post")
  */
-class Article
+class Post
 {
     const STATUS_Draft = 0;
     const STATUS_Publish = 1;
