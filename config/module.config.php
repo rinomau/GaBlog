@@ -5,7 +5,7 @@ return array(
             'post-rest' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route' => '/post/[:id]',
+                    'route' => '/post[/:id]',
                     'constraints' => array(
                         'id' => '[0-9]+',
                     ),
@@ -14,7 +14,7 @@ return array(
                     ),
                 ),
             ),
-            'post-rest' => array(
+            'category-rest' => array(
                 'type' => 'segment',
                 'options' => array(
                     'route' => '/category[/:id]',

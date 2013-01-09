@@ -40,7 +40,7 @@ class Module implements
 
         $em->attach(array(
             'GaBlog\Controller\CategoryRestController',
-            'GaBlog\Controller\PostRestCategory'
+            'GaBlog\Controller\PostRestController'
         ), MvcEvent::EVENT_DISPATCH, function($e) use ($sm) {
             $strategy = $sm->get('ViewJsonStrategy');
             $view     = $sm->get('ViewManager')->getView();
