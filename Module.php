@@ -9,10 +9,12 @@
 
 namespace GaBlog;
 
-use Zend\Mvc\ModuleRouteListener;
+use Zend\ModuleManager\Feature;
+use Zend\EventManager\EventInterface;
 use Zend\Mvc\MvcEvent;
 
-class Module
+class Module implements
+    Feature\BootstrapListenerInterface
 {
     public function getConfig()
     {
@@ -28,5 +30,21 @@ class Module
                 ),
             ),
         );
+    }
+
+    public function onBootstrap(EventInterface $e)
+    {
+        $app = $e->getApplication();
+        $em  = $app->getEventManager()->getSharedManager();
+        $sm  = $app->getServiceManager();
+
+        $em->attach(array(
+            'GaBlog\Controller\CategoryRestController',
+            'GaBlog\Controller\PostRestCategory'
+        ), MvcEvent::EVENT_DISPATCH, function($e) use ($sm) {
+            $strategy = $sm->get('ViewJsonStrategy');
+            $view     = $sm->get('ViewManager')->getView();
+            $strategy->attach($view->getEventManager());
+        });
     }
 }
