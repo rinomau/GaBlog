@@ -53,5 +53,8 @@ return array(
                 )
             )
         ),
-    )
+    ),
+    'myRest' => function(){
+        return new GaBlog\Http\Restful();
+    }
 );

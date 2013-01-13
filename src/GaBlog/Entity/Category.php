@@ -33,7 +33,7 @@ class Category
      */
     private $dateTimeCreated;
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="id_user")
      * @var int
      */
     private $idUser;

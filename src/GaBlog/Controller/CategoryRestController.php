@@ -10,23 +10,47 @@ class CategoryRestController
 
     public function getList()
     {
-        $c = array('c' => 'b', 'd' => 'e');
-        $view = new JsonModel($c);
+        $categories = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
+            ->getRepository('GaBlog\Entity\Category')->findAll();
+        foreach($categories as $ii => $category){
+            $categories[$ii] = array(
+                'name' => $category->getName(),
+                'created' => $category->getDateTimeCreated(),
+                'description' => $category->getDescription(),
+                'tag' => $category->getTag(),
+                'idUser' => $category->getIdUser(),
+                'id' => $category->getId()
+            );
+
+        }
+        $view = new JsonModel($categories);
         $view->setTerminal(true);
         return $view;
     }
 
     public function get($id)
     {
-
+        $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
+            ->getRepository('GaBlog\Entity\Category')->find($id);
+            $categoryArray = array(
+                'name' => $category->getName(),
+                'created' => $category->getDateTimeCreated(),
+                'description' => $category->getDescription(),
+                'tag' => $category->getTag(),
+                'idUser' => $category->getIdUser(),
+                'id' => $category->getId()
+            );
+        $view = new JsonModel($categoryArray);
+        $view->setTerminal(true);
+        return $view;
     }
 
     public function create($data)
     {
         $category = new Category();
         $category->setName($data['title'])
-            ->setTag($data['tag'])
-            ->setDescription($data['description'])
+            ->setTag((empty($data['tag'])) ? null : $data['tag'])
+            ->setDescription((empty($data['description'])) ? null : $data['description'])
             ->setIdUser($data['idUser']);
         $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->persist($category);
         $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->flush();
@@ -38,16 +62,32 @@ class CategoryRestController
 
     public function update($id, $data)
     {
-        $c = array('ciao' => 'update', 'd' => 'e');
-        $view = new JsonModel($c);
+        $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
+            ->getRepository('GaBlog\Entity\Category')->find($id);
+        $category->setName($data['title'])
+            ->setTag((empty($data['tag'])) ? null : $data['tag'])
+            ->setDescription((empty($data['description'])) ? null : $data['description'])
+            ->setIdUser($data['idUser']);
+        $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->persist($category);
+        $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->flush();
+        $categoryArray = array(
+            'name' => $category->getName(),
+            'created' => $category->getDateTimeCreated(),
+            'description' => $category->getDescription(),
+            'tag' => $category->getTag(),
+            'idUser' => $category->getIdUser(),
+            'id' => $category->getId()
+        );
+        $view = new JsonModel($categoryArray);
         $view->setTerminal(true);
         return $view;
     }
 
     public function delete($id)
     {
-        $c = array('ciao' => 'delete', 'd' => 'e');
-        $view = new JsonModel($c);
+        $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
+            ->getRepository('GaBlog\Entity\Category')->delete($id);
+        $view = new JsonModel("{'deleted':'ok'}");
         $view->setTerminal(true);
         return $view;
     }

@@ -63,6 +63,14 @@ class Post
     private $idUser;
 
     /**
+     * @ORM\Column(type="integer", name="id_category")
+     * @ORM\OneToOne(targetEntity="Category")
+     * @ORM\JoinColumn(name="shipping_id", referencedColumnName="id")
+     * @var int
+     */
+    private $idCategory;
+
+    /**
      * @return int
      */
     function getId()
