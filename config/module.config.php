@@ -1,5 +1,10 @@
 <?php
 return array(
+    'modules' => array(
+        'DoctrineModule',
+        'ZendDeveloperTools',
+        'DoctrineORMMOdule',
+     ),
     'router' => array(
         'routes' => array(
             'post-rest' => array(
@@ -55,8 +60,10 @@ return array(
         ),
     ),
     'service_manager' => array(
-        'myRest' => function(){
-            return new GaBlog\Http\Restful();
-        }
+            'factories' => array(
+            'myRest' => function(){
+                return new GaBlog\Http\Restful();
+            }
+        )
     )
 );
