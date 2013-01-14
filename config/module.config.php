@@ -54,7 +54,9 @@ return array(
             )
         ),
     ),
-    'myRest' => function(){
-        return new GaBlog\Http\Restful();
-    }
+    'service_manager' => array(
+        'myRest' => function(){
+            return new GaBlog\Http\Restful();
+        }
+    )
 );
