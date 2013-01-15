@@ -53,12 +53,5 @@ return array(
                 )
             )
         ),
-    ),
-    'service_manager' => array(
-            'factories' => array(
-                'myRest' => function(){
-                    return new GaBlog\Http\Restful();
-                }
-        )
     )
 );

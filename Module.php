@@ -37,12 +37,6 @@ class Module implements
         $app = $e->getApplication();
         $em  = $app->getEventManager()->getSharedManager();
         $sm  = $app->getServiceManager();
-        
-        $em->attach('GaBlog\Controller\CategoryRestController',
-            MvcEvent::EVENT_DISPATCH,
-            array($e->getApplication()->getServiceManager()->get('myRest'), 'onDispatch'), 100);
-
-
         $em->attach(array(
             'GaBlog\Controller\CategoryRestController',
             'GaBlog\Controller\PostRestController'
