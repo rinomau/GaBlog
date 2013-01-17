@@ -1,0 +1,35 @@
+<?$form = $this->form;
+$form->prepare();
+
+// Assuming the "contact/process" route exists...
+$form->setAttribute('action', $this->url('contact/process'));
+
+// Set the method attribute for the form
+$form->setAttribute('method', 'post');
+
+// Render the opening tag
+echo $this->form()->openTag($form);
+?>
+<div class="form_element">
+    <?php
+    $name = $form->get('name');
+    echo $this->formRow($name);
+    ?></div>
+
+<div class="form_element">
+    <?php
+    $description = $form->get('description');
+    echo $this->formRow($description);
+    ?></div>
+
+<div class="form_element">
+    <?php
+    $tag = $form->get('tag');
+    echo $this->formRow($tag);
+    ?></div>
+
+<?php echo $this->formHidden($form->get('userId')) ?>
+<?php echo $this->formHidden($form->get('categoryId')) ?>
+<?php echo $this->formElement($form->get('submit')) ?>
+
+<?php echo $this->form()->closeTag() ?>
