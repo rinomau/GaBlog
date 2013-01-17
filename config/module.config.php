@@ -2,39 +2,27 @@
 return array(
     'router' => array(
         'routes' => array(
-            'post-rest' => array(
+            'rest' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route' => '/post[/:id]',
+                    'route' => '/gablog/ws[/:controller[/:id]]',
                     'constraints' => array(
+                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]+',
                         'id' => '[0-9]+',
                     ),
                     'defaults' => array(
-                        'controller' => 'PostRest',
                     ),
                 ),
             ),
-            'category-rest' => array(
+            'blog' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route' => '/category[/:id]',
+                    'route' => '/blog[/:controller[/:action]]',
                     'constraints' => array(
-                        'id' => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'CategoryRest',
-                    ),
-                ),
-            ),
-            'category' => array(
-                'type' => 'segment',
-                'options' => array(
-                    'route' => '/cat[/:action]',
-                    'constraints' => array(
+                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]+',
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]+',
                     ),
                     'defaults' => array(
-                        'controller' => 'Category',
                     ),
                 ),
             ),
