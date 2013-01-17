@@ -1,5 +1,6 @@
 <?php
 namespace GaBlog\Controller;
+
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 use GaBlog\Entity\Category;
