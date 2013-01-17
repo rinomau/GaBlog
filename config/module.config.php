@@ -10,7 +10,7 @@ return array(
                         'id' => '[0-9]+',
                     ),
                     'defaults' => array(
-                        'controller' => 'post',
+                        'controller' => 'PostRest',
                     ),
                 ),
             ),
@@ -26,12 +26,25 @@ return array(
                     ),
                 ),
             ),
+            'category' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'route' => '/cat[/:action]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Category',
+                    ),
+                ),
+            ),
         ),
     ),
     'controllers' => array(
         'invokables' => array(
-            'post' => 'GaBlog\Controller\PostRestController',
+            'PostRest' => 'GaBlog\Controller\PostRestController',
             'CategoryRest' => 'GaBlog\Controller\CategoryRestController',
+            'Category' => 'GaBlog\Controller\CategoryController'
         ),
     ),
     'view_manager' => array(
@@ -53,12 +66,5 @@ return array(
                 )
             )
         ),
-    ),
-    'service_manager' => array(
-            'factories' => array(
-                'myRest' => function(){
-                    return new GaBlog\Http\Restful();
-                }
-        )
     )
 );
