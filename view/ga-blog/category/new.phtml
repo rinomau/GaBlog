@@ -1,12 +1,6 @@
 <?$form = $this->form;
 $form->prepare();
 
-// Assuming the "contact/process" route exists...
-$form->setAttribute('action', $this->url('contact/process'));
-
-// Set the method attribute for the form
-$form->setAttribute('method', 'post');
-
 // Render the opening tag
 echo $this->form()->openTag($form);
 ?>
