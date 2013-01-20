@@ -20,7 +20,7 @@ class CategoryEdit
             ),
         ));
 
-        /*$this->add(array(
+        $this->add(array(
             'name' => 'description',
             'options' => array(
                 'label' => 'Descrizione',
@@ -65,6 +65,6 @@ class CategoryEdit
             'attributes' => array(
                 'type' => 'hidden'
             ),
-        ));*/
+        ));
     }
 }
