@@ -48,20 +48,14 @@ class CategoryRestController
 
     public function create($data)
     {
-        if(!$data['ovveride_method'] OR $data['ovveride_method'] || 'POST'){
-            $category = new Category();
-            $category->setName($data['title'])
-                ->setTag((empty($data['tag'])) ? null : $data['tag'])
-                ->setDescription((empty($data['description'])) ? null : $data['description'])
-                ->setIdUser($data['idUser']);
-            $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->persist($category);
-            $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->flush();
-            $response = array('ciao' => 'create');
-        } elseif($data['ovveride_method'] == 'DELETE'){
-            $this->delete($data['id']);
-        } elseif($data['ovveride_method'] == 'PUT'){
-            $this->update($data['id'], $data);
-        }
+        $category = new Category();
+        $category->setName($data['title'])
+            ->setTag((empty($data['tag'])) ? null : $data['tag'])
+            ->setDescription((empty($data['description'])) ? null : $data['description'])
+            ->setIdUser($data['idUser']);
+        $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->persist($category);
+        $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->flush();
+        $response = array('ciao' => 'create');
         $view = new JsonModel($response);
         $view->setTerminal(true);
         return $view;

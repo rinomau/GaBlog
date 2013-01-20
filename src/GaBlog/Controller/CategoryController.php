@@ -25,11 +25,41 @@ class CategoryController
         ));
     }
 
+    public function addAction()
+    {
+        $form = new CategoryEdit();
+
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $form->setData($request->getPost());
+            if("" === $form->get('categoryId')->getValue()){
+                $request = new Client();
+                $request->setMethod('POST');
+                $request->setUri('http://websenzafrontiere.local/gablog/ws/category-rest');
+                $request->setParameterPost(array(
+                    'name' => $form->getValue('name'),
+                    'description' => $form->get('description'),
+                    'idUser' => $form->getValue('userId')
+                ));
+                $response = $request->send()->getContent();
+                var_dump(json_decode($response, true));
+            } else {
+                echo 'update';
+            }
+            return false;
+        }
+
+        return new ViewModel(array(
+            'message' => 'wow'
+        ));
+    }
+
     public function listAction()
     {
+        die();
         $request = new Client();
         $request->setMethod('GET');
-        $request->setUri('http://websenzafrontiere.local/gablog/ws/category-rest');
+        $request->setUri($this->url('rest', array('category-rest')));
         $response = $request->send()->getContent();
         $response = json_decode($response, true);
         return new ViewModel(array(
