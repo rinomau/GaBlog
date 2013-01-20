@@ -4,6 +4,7 @@ namespace GaBlog\Controller;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 use GaBlog\Entity\Category;
+use ZendTest\XmlRpc\Server\Exception;
 
 class CategoryRestController
     extends AbstractRestfulController
@@ -48,6 +49,7 @@ class CategoryRestController
 
     public function create($data)
     {
+        try{
         $category = new Category();
         $category->setName($data['title'])
             ->setTag((empty($data['tag'])) ? null : $data['tag'])
@@ -55,7 +57,10 @@ class CategoryRestController
             ->setIdUser($data['idUser']);
         $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->persist($category);
         $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->flush();
-        $response = array('ciao' => 'create');
+        $response = array('action' => 'create', 'status' => 'ok');
+        } catch (Exception $e) {
+            $response =  array('action' => 'create', 'status' => $e->getMessage());
+        }
         $view = new JsonModel($response);
         $view->setTerminal(true);
         return $view;

@@ -10,6 +10,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Http\Client;
 use GaBlog\Form\CategoryEdit;
+use ZendTest\XmlRpc\Server\Exception;
 
 class CategoryController
     extends AbstractActionController
@@ -33,6 +34,7 @@ class CategoryController
         if ($request->isPost()) {
             $form->setData($request->getPost());
             if("" === $form->get('categoryId')->getValue()){
+                try{
                 $request = new Client();
                 $request->setMethod('POST');
                 $request->setUri('http://websenzafrontiere.local/gablog/ws/category-rest');
@@ -43,6 +45,9 @@ class CategoryController
                 ));
                 $response = $request->send()->getContent();
                 var_dump(json_decode($response, true));
+                } catch(Exception $e) {
+                    var_dump($e->getMessage(), 'exc');
+                }
             } else {
                 echo 'update';
             }
@@ -58,7 +63,7 @@ class CategoryController
     {
         $request = new Client();
         $request->setMethod('GET');
-        $request->setUri($this->url('rest', array('category-rest')));
+        $request->setUri('http://websenzafrontiere.local/gablog/ws/category-rest');
         $response = $request->send()->getContent();
         $response = json_decode($response, true);
         return new ViewModel(array(
