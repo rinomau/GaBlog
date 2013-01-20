@@ -56,7 +56,6 @@ class CategoryController
 
     public function listAction()
     {
-        die();
         $request = new Client();
         $request->setMethod('GET');
         $request->setUri($this->url('rest', array('category-rest')));
