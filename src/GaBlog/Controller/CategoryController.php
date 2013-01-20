@@ -41,10 +41,10 @@ class CategoryController
                 $request->setParameterPost(array(
                     'name' => $form->getValue('name'),
                     'description' => $form->get('description'),
-                    'idUser' => $form->getValue('userId')
+                    'userId' => $form->getValue('userId')
                 ));
                 $response = $request->send()->getContent();
-                var_dump(json_decode($response, true));
+                var_dump(json_decode($response, true), 'tutto ok');
                 } catch(Exception $e) {
                     var_dump($e->getMessage(), 'exc');
                 }

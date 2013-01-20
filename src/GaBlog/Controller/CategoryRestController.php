@@ -51,15 +51,18 @@ class CategoryRestController
     {
         try{
         $category = new Category();
-        $category->setName($data['title'])
+        $category->setName($data['name'])
             ->setTag((empty($data['tag'])) ? null : $data['tag'])
             ->setDescription((empty($data['description'])) ? null : $data['description'])
-            ->setIdUser($data['idUser']);
+            ->setIdUser($data['userId']);
         $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->persist($category);
         $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->flush();
         $response = array('action' => 'create', 'status' => 'ok');
         } catch (Exception $e) {
             $response =  array('action' => 'create', 'status' => $e->getMessage());
+            $view = new JsonModel($response);
+            $view->setTerminal(true);
+            return $view;
         }
         $view = new JsonModel($response);
         $view->setTerminal(true);
@@ -81,7 +84,7 @@ class CategoryRestController
             'created' => $category->getDateTimeCreated(),
             'description' => $category->getDescription(),
             'tag' => $category->getTag(),
-            'idUser' => $category->getIdUser(),
+            'userId' => $category->getIdUser(),
             'id' => $category->getId()
         );
         $view = new JsonModel($categoryArray);
@@ -93,7 +96,8 @@ class CategoryRestController
     {
         $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
             ->getRepository('GaBlog\Entity\Category')->delete($id);
-        $view = new JsonModel("{'deleted':'ok'}");
+        $response =  array('action' => 'delete', 'status' => 'ok');
+        $view = new JsonModel($response);
         $view->setTerminal(true);
         return $view;
     }
