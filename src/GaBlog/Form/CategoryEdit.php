@@ -8,8 +8,11 @@ use Zend\Form\Element;
 class CategoryEdit
     extends Form
 {
-    public function __construct()
+    public function __construct($name = null)
     {
+        parent::__construct('category');
+        $this->setAttribute('method', 'POST');
+        $this->setAttribute('action', '/blog/category/add');
         $this->add(array(
             'name' => 'name',
             'options' => array(
@@ -56,7 +59,6 @@ class CategoryEdit
             'type' => 'Zend\Form\Element\Hidden',
             'attributes' => array(
                 'type' => 'hidden',
-                'value' => 1
             ),
         ));
         $this->add(array(
