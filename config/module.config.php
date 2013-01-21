@@ -33,7 +33,8 @@ return array(
         'invokables' => array(
             'PostRest' => 'GaBlog\Controller\PostRestController',
             'CategoryRest' => 'GaBlog\Controller\CategoryRestController',
-            'Category' => 'GaBlog\Controller\CategoryController'
+            'Category' => 'GaBlog\Controller\CategoryController',
+            'Post' => 'GaBlog\Controller\PostController'
         ),
     ),
     'view_manager' => array(
