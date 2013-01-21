@@ -17,10 +17,11 @@ return array(
             'blog' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route' => '/blog[/:controller[/:action]]',
+                    'route' => '/blog[/:controller[/:action[/:id]]]',
                     'constraints' => array(
                         'controller' => '[a-zA-Z][a-zA-Z0-9_-]+',
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]+',
+                        'id' => '[0-9]+',
                     ),
                     'defaults' => array(
                     ),
@@ -54,5 +55,21 @@ return array(
                 )
             )
         ),
+        /*
+         * I use this conf into globa.conf
+        'connection' => array(
+            // default connection name
+            'orm_default' => array(
+                'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
+                'params' => array(
+                    'host'     => 'localhost',
+                    'port'     => '3306',
+                    'user'     => 'username',
+                    'password' => 'password',
+                    'dbname'   => 'database',
+                )
+            )
+        )
+        */
     )
 );
