@@ -73,7 +73,7 @@ class CategoryRestController
     {
         $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
             ->getRepository('GaBlog\Entity\Category')->find($id);
-        $category->setName($data['title'])
+        $category->setName($data['name'])
             ->setTag((empty($data['tag'])) ? null : $data['tag'])
             ->setDescription((empty($data['description'])) ? null : $data['description'])
             ->setIdUser($data['idUser']);
@@ -95,7 +95,9 @@ class CategoryRestController
     public function delete($id)
     {
         $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
-            ->getRepository('GaBlog\Entity\Category')->delete($id);
+            ->getRepository('GaBlog\Entity\Category')->find($id);
+        $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->remove($category);
+        $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->flush();
         $response =  array('action' => 'delete', 'status' => 'ok');
         $view = new JsonModel($response);
         $view->setTerminal(true);
