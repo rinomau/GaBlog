@@ -42,7 +42,7 @@ extends Form
                 ),
                 'attributes' => array(
                         'type' => 'text',
-                        'class' => 'span6'
+                        'class' => 'span6, datepicker'
                 ),
         ));
         
@@ -53,7 +53,7 @@ extends Form
                 ),
                 'attributes' => array(
                         'type' => 'text',
-                        'class' => 'span6'
+                        'class' => 'span6, datepicker'
                 ),
         ));
         
@@ -64,7 +64,7 @@ extends Form
                 ),
                 'attributes' => array(
                         'type' => 'text',
-                        'class' => 'span6'
+                        'class' => 'span6, datepicker'
                 ),
         ));
         
