@@ -1,1 +1,45 @@
-<?php var_dump($this->post)?>
+<div class="row-fluid">
+    <div class="span12">
+    <?php if(!$this->posts){
+        echo "<h2>Nessun dato inserito</h2>";
+    } else {?>
+        <table class="table table-bordered">
+            <tr>
+                <th class="span2">Titolo</th>
+                <th class="span1">Stato</th>
+                <th class="span3">Creato</th>
+                <th class="span2">Utente</th>
+                <th class="span2">Categoria</th>
+                <th class="span2"></th>
+            </tr>
+            <?foreach($this->posts as $post){?>
+            <tr id="<?=$post['id']?>">
+                <td><?=$post['title']?></td>
+                <td><?=$post['status']?></td>
+                <td><?=$post['created']?></td>
+                <td><?=$post['idUser']?></td>
+                <td><?=$post['idCategory']?></td>
+                <td>
+                    <span data-id="<?=$post['id']?>" class="del">Del</span>
+                    <span data-id="<?=$post['id']?>" class="edit">
+                        <a href="/blog/post/new/<?=$post['id']?>" target="_self">Edit</a>
+                    </span>
+                </td>
+            </tr>
+            <?}?>
+        </table>
+    <?php }?>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        $(".del").click(function(){
+            var id = $(this).data("id");
+        	$.post('/blog/post/del', "id="+ id, function(result) {
+        	    	$('#'+ id).hide();
+        	    }
+        	);
+        });
+    });
+</script>

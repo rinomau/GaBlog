@@ -86,7 +86,6 @@ class CategoryController
     
     public function delAction()
     {
-        var_dump($this->getRequest()->getPost('id'));
         $request = new Client();
         $request->setMethod('DELETE');
         $request->setUri("http://zend2.local/gablog/ws/category-rest/{$this->getRequest()->getPost('id')}");

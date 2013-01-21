@@ -80,16 +80,15 @@ class PostController
         $response = $request->send()->getContent();
         $response = json_decode($response, true);
         return new ViewModel(array(
-            'post' => $response,
+            'posts' => $response,
         ));
     }
     
     public function delAction()
     {
-        var_dump($this->getRequest()->getPost('id'));
         $request = new Client();
         $request->setMethod('DELETE');
-        $request->setUri("http://zend2.local/gablog/ws/category-rest/{$this->getRequest()->getPost('id')}");
+        $request->setUri("http://zend2.local/gablog/ws/post-rest/{$this->getRequest()->getPost('id')}");
         $response = $request->send()->getContent();
         $response = json_decode($response, true);
         return false;
