@@ -52,12 +52,12 @@ class Post
      */
     private $dateTimeUnpublish;
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="integer")
      * @var int
      */
     private $status;
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="id_user")
      * @var int
      */
     private $idUser;
@@ -137,6 +137,13 @@ class Post
     /**
      * @return int
      */
+    function getIdCategory()
+    {
+        return $this->idCategory;
+    }
+    /**
+     * @return int
+     */
     function getStatus()
     {
         return $this->status;
@@ -189,6 +196,16 @@ class Post
         return $this;
     }
 
+    /**
+     * 
+     * @param int $ic
+     * @return \GaBlog\Entity\Post
+     */
+    function setIdCategory($ic)
+    {
+        $this->idCategory = $ic;
+        return $this;
+    }
     /**
      * @param $t
      * @return $this

@@ -15,10 +15,6 @@ use ZendTest\XmlRpc\Server\Exception;
 class CategoryController
     extends AbstractActionController
 {
-    public function deleteAction()
-    {
-    }
-
     public function newAction()
     {
         $form = new CategoryEdit();

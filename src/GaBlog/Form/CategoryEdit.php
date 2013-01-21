@@ -26,7 +26,7 @@ class CategoryEdit
         $this->add(array(
             'name' => 'description',
             'options' => array(
-                'label' => 'Descrizione',
+                'label' => 'Descrizione ',
             ),
             'attributes' => array(
                 'type' => 'text'
