@@ -10,8 +10,25 @@ class PostRestController
 
     public function getList()
     {
-        $c = array('c' => 'b', 'd' => 'e');
-        $view = new JsonModel($c);
+        $posts = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
+            ->getRepository('GaBlog\Entity\Post')->findAll();
+        foreach($posts as $ii => $post){
+            $posts[$ii] = array(
+                    'title' => $post->getTitle(),
+                    'created' => $post->getDateTimeCreated(),
+                    'description' => $post->getDescription(),
+                    'content' => $post->getContent(),
+                    'tag' => $post->getTag(),
+                    'publish' => $post->getDateTimePublish(),
+                    'unpublish' => $post->getDateTimeUnpublish(),
+                    'status' => $post->getStatus(),
+                    'idUser' => $post->getIdUser(),
+                    'idCategory' => $post->getIdCategory(),
+                    'id' => $post->getId()
+            );
+        
+        }
+        $view = new JsonModel($posts);
         $view->setTerminal(true);
         return $view;
     }
