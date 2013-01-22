@@ -37,12 +37,12 @@ class Post
      */
     private $tag;
     /**
-     * @ORM\Column(type="datetime", name="created") @ORM\GeneratedValue
+     * @ORM\Column(type="datetime", name="created")
      * @var datetime
      */
     private $dateTimeCreated;
     /**
-     * @ORM\Column(type="datetime", name="publish") @ORM\GeneratedValue
+     * @ORM\Column(type="datetime", name="publish")
      * @var datetime
      */
     private $dateTimePublish;

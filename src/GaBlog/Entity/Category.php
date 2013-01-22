@@ -27,8 +27,9 @@ class Category
      * @var string
      */
     private $tag;
+    
     /**
-     * @ORM\Column(type="datetime", name="created") @ORM\GeneratedValue
+     * @ORM\Column(type="datetime", name="created")
      * @var datetime
      */
     private $dateTimeCreated;

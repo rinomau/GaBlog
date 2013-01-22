@@ -47,6 +47,7 @@ class PostController
                 $post = new Post();
                 $post->setTitle($form->get('title')->getValue());
                 $post->setContent($form->get('content')->getValue());
+                $post->setDateTimeCreated(date('Y-m-d G:m:s'));
                 $post->setDescription($form->get('description')->getValue());
                 $post->setTag($form->get('tag')->getValue());
                 $post->setIdCategory($form->get('categoryId')->getValue());
@@ -54,6 +55,7 @@ class PostController
                 $post->setStatus($form->get('status')->getValue());
             } else {
                 $post = new Post();
+                $post->setId($form->get('id')->getValue());
                 $post->setTitle($form->get('title')->getValue());
                 $post->setContent($form->get('content')->getValue());
                 $post->setDescription($form->get('description')->getValue());
@@ -77,8 +79,7 @@ class PostController
         $posts = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
             ->getRepository('GaBlog\Entity\Post')->findAll();
         foreach($posts as $ii => $post){
-            $category=$post->getId()->getCategory()->getName();
-            $post->setCategory($category);
+            $category=$post->getCategory();
             $posts[$ii] = $post->toArray();
         }
         return new ViewModel(array(

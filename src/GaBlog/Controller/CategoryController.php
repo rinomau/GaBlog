@@ -44,7 +44,8 @@ class CategoryController
             $form->setData($request->getPost());
             if("" === $form->get('categoryId')->getValue()){
                 $category = new Category();
-                $category->setName($form->get('name')->getValue())
+                $category->setDateTimeCreated(date('Y-m-d G:m:s'))
+                         ->setName($form->get('name')->getValue())
                          ->setTag($form->get('tag')->getValue())
                          ->setDescription($form->get('description')->getValue())
                          ->setIdUser($form->get('userId')->getValue());
