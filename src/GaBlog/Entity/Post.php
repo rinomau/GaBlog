@@ -64,11 +64,14 @@ class Post
 
     /**
      * @ORM\Column(type="integer", name="id_category")
-     * @ORM\OneToOne(targetEntity="Category")
-     * @ORM\JoinColumn(name="shipping_id", referencedColumnName="id")
      * @var int
      */
     private $idCategory;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="GaBlog\Entity\Category", inversedBy="post")
+     */
+    private $category;
 
     /**
      * @return int
@@ -303,5 +306,10 @@ class Post
             return 'Unpublish';
         elseif($this->status == 3)
         return 'Inactive';
+    }
+    
+    function getCategory()
+    {
+        return $this->category;
     }
 }

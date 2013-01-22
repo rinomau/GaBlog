@@ -37,6 +37,11 @@ class Category
      * @var int
      */
     private $idUser;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="GaBlog\Entity\Post", mappedBy="category")
+     */
+    private $post;
 
     /**
      * @return int

@@ -77,6 +77,8 @@ class PostController
         $posts = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
             ->getRepository('GaBlog\Entity\Post')->findAll();
         foreach($posts as $ii => $post){
+            $category=$post->getId()->getCategory()->getName();
+            $post->setCategory($category);
             $posts[$ii] = $post->toArray();
         }
         return new ViewModel(array(
