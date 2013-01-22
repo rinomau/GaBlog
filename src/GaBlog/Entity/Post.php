@@ -115,7 +115,7 @@ class Post
      */
     function getDateTimeCreated()
     {
-        return $this->dateTimeCreated;
+        return $this->dateTimeCreated->format('Y-m-d G:m:s');
     }
 
     /**
@@ -123,7 +123,7 @@ class Post
      */
     function getDateTimePublish()
     {
-        return $this->dateTimePublish;
+        return $this->dateTimePublish->format('Y-m-d G:m:s');
     }
 
     /**
@@ -131,7 +131,10 @@ class Post
      */
     function getDateTimeUnpublish()
     {
-        return $this->dateTimeUnpublish;
+        if($this->dateTimeUnpublish)
+            return $this->dateTimeUnpublish->format('Y-m-d G:m:s');
+        else
+            return null;
     }
 
     /**
@@ -264,5 +267,41 @@ class Post
     {
         $this->idUser = $i;
         return $this;
+    }
+    
+    /**
+     * return array by object
+     * @return array
+     */
+    function toArray()
+    {
+        return array(
+                  'title' => $this->getTitle(),
+                  'description' => $this->getDescription(),
+                  'tag' => $this->getTag(),
+                  'categoryId' => $this->getId(),
+                  'userId' => $this->getIdUser(),
+                  'content' => $this->getContent(),
+                  'id' => $this->getId(),
+                  'created' => $this->getDateTimeCreated(),
+                  'publish' => $this->getDateTimePublish(),
+                  'unpublish' => $this->getDateTimeUnpublish(),
+                  'status' => $this->getStatus()
+               );
+    }
+    
+    /**
+     * translate status
+     */
+    function translateStatus()
+    {
+        if($this->status == 0 )
+            return 'Draft';
+        elseif($this->status == 1)
+            return 'Publish';
+        elseif($this->status == 2)
+            return 'Unpublish';
+        elseif($this->status == 3)
+        return 'Inactive';
     }
 }

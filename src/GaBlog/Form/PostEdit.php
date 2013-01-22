@@ -20,7 +20,7 @@ extends Form
                 ),
                 'attributes' => array(
                         'type' => 'text',
-                        'class' => 'span6'
+                        'class' => 'span12'
                 ),
         ));
         
@@ -31,7 +31,8 @@ extends Form
                 ),
                 'attributes' => array(
                         'type' => 'textarea',
-                        'class' => 'span12'
+                        'class' => 'span12',
+                        'id' => 'editor',
                 ),
         ));
         
@@ -42,7 +43,8 @@ extends Form
                 ),
                 'attributes' => array(
                         'type' => 'text',
-                        'class' => 'span6, datepicker'
+                        'class' => 'datepicker',
+                        'disabled' => 'disabled'
                 ),
         ));
         
@@ -53,18 +55,18 @@ extends Form
                 ),
                 'attributes' => array(
                         'type' => 'text',
-                        'class' => 'span6, datepicker'
+                        'class' => 'datepicker'
                 ),
         ));
         
         $this->add(array(
                 'name' => 'unpublish',
                 'options' => array(
-                        'label' => 'Unpublish',
+                        'label' => 'Annulla pubblicazione',
                 ),
                 'attributes' => array(
                         'type' => 'text',
-                        'class' => 'span6, datepicker'
+                        'class' => 'datepicker'
                 ),
         ));
         
@@ -94,10 +96,16 @@ extends Form
                 'name' => 'status',
                 'options' => array(
                         'label' => 'Stato',
+                        'value_options' => array(
+                                    '0' => 'Draft',
+                                    '1' => 'Publish',
+                                    '2' => 'Unpublish',
+                                    '3' => 'Inactive'
+                                )
                 ),
+                'type' => 'Zend\Form\Element\Select',
                 'attributes' => array(
-                        'type' => 'text',
-                        'class' => 'span7'
+                        'class' => 'span12',
                 ),
         ));
 
@@ -106,9 +114,9 @@ extends Form
                 'options' => array(
                         'label' => 'Categoria',
                 ),
-                'type' => 'Zend\Form\Element\Text',
+                'type' => 'Zend\Form\Element\Select',
                 'attributes' => array(
-                        'class' => 'span7'
+                        'class' => 'span12'
                 ),
         ));
         $this->add(array(
@@ -118,7 +126,7 @@ extends Form
                         'label' => 'Utente',
                 ),
                 'attributes' => array(
-                        'class' => 'span7'
+                        'class' => 'span12'
                 ),
         ));
         
@@ -135,6 +143,7 @@ extends Form
         ->setLabel('Submit')
         ->setAttributes(array(
                 'type'  => 'submit',
+                'class' => 'btn'
         ));
 
         $this->add($submitElement, array(

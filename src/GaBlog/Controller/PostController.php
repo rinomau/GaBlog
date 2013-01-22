@@ -6,6 +6,8 @@
 
 namespace GaBlog\Controller;
 
+use GaBlog\Entity\Post;
+
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Http\Client;
@@ -18,16 +20,16 @@ class PostController
     public function newAction()
     {
         $form = new PostEdit();
+        $categories = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
+        ->getRepository('GaBlog\Entity\Category')->findAll();
+        foreach($categories as $category){
+            $params[$category->getId()] = $category->getName();
+        }
+        $form->get('categoryId')->setValueOptions($params);
         if($this->params('id')){
-            $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
-            ->getRepository('GaBlog\Entity\Category')->find($this->params('id'));
-            $form->populateValues(array(
-                        'name' => $category->getName(),
-                        'description' => $category->getDescription(),
-                        'tag' => $category->getTag(),
-                        'categoryId' => $category->getId(),
-                        'userId' => $category->getIdUser()
-                    ));
+            $post = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
+            ->getRepository('GaBlog\Entity\Post')->find($this->params('id'));
+            $form->populateValues($post->toArray());
         }
         return new ViewModel(array(
             'form' => $form
@@ -36,35 +38,33 @@ class PostController
 
     public function addAction()
     {
-        $form = new CategoryEdit();
+        $form = new PostEdit();
 
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost());
-            if("" === $form->get('categoryId')->getValue()){
-                $request = new Client();
-                $request->setMethod('POST');
-                $request->setUri('http://zend2.local/gablog/ws/category-rest');
-                $request->setParameterPost(array(
-                    'name' => $form->get('name')->getValue(),
-                    'description' => $form->get('description')->getValue(),
-                    'tag' => $form->get('tag')->getValue(),
-                    'userId' => $form->get('userId')->getValue()
-                ));
-                $response = $request->send()->getContent();
+            if("" === $form->get('id')->getValue()){
+                $post = new Post();
+                $post->setTitle($form->get('title')->getValue());
+                $post->setContent($form->get('content')->getValue());
+                $post->setDescription($form->get('description')->getValue());
+                $post->setTag($form->get('tag')->getValue());
+                $post->setIdCategory($form->get('categoryId')->getValue());
+                $post->setIdUser(0);
+                $post->setStatus($form->get('status')->getValue());
             } else {
-                $request = new Client();
-                $request->setMethod('PUT');
-                $request->setUri("http://zend2.local/gablog/ws/category-rest/{$form->get('categoryId')->getValue()}");
-                $request->setParameterPost(array(
-                            'name' => $form->get('name')->getValue(),
-                            'description' => $form->get('description')->getValue(),
-                            'tag' => $form->get('tag')->getValue(),
-                            'userId' => $form->get('userId')->getValue()
-                        ));
-                $response = $request->send()->getContent();
+                $post = new Post();
+                $post->setTitle($form->get('title')->getValue());
+                $post->setContent($form->get('content')->getValue());
+                $post->setDescription($form->get('description')->getValue());
+                $post->setTag($form->get('tag')->getValue());
+                $post->setIdCategory($form->get('categoryId')->getValue());
+                $post->setIdUser(0);
+                $post->setStatus($form->get('status')->getValue());
             }
-            return false;
+            $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->persist($post);
+            $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->flush();
+            return $this->listAction();
         }
 
         return new ViewModel(array(
@@ -74,23 +74,22 @@ class PostController
 
     public function listAction()
     {
-        $request = new Client();
-        $request->setMethod('GET');
-        $request->setUri('http://zend2.local/gablog/ws/post-rest');
-        $response = $request->send()->getContent();
-        $response = json_decode($response, true);
+        $posts = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
+            ->getRepository('GaBlog\Entity\Post')->findAll();
+        foreach($posts as $ii => $post){
+            $posts[$ii] = $post->toArray();
+        }
         return new ViewModel(array(
-            'posts' => $response,
+            'posts' => $posts,
         ));
     }
     
     public function delAction()
     {
-        $request = new Client();
-        $request->setMethod('DELETE');
-        $request->setUri("http://zend2.local/gablog/ws/post-rest/{$this->getRequest()->getPost('id')}");
-        $response = $request->send()->getContent();
-        $response = json_decode($response, true);
+        $post = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
+            ->getRepository('GaBlog\Entity\Post')->find($this->getRequest()->getPost('id'));
+        $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->remove($post);
+        $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->flush();
         return false;
     }
 }

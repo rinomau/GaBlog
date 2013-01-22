@@ -11,6 +11,7 @@ use Zend\View\Model\ViewModel;
 use Zend\Http\Client;
 use GaBlog\Form\CategoryEdit;
 use ZendTest\XmlRpc\Server\Exception;
+use GaBlog\Entity\Category;
 
 class CategoryController
     extends AbstractActionController
@@ -42,55 +43,50 @@ class CategoryController
         if ($request->isPost()) {
             $form->setData($request->getPost());
             if("" === $form->get('categoryId')->getValue()){
-                $request = new Client();
-                $request->setMethod('POST');
-                $request->setUri('http://zend2.local/gablog/ws/category-rest');
-                $request->setParameterPost(array(
-                    'name' => $form->get('name')->getValue(),
-                    'description' => $form->get('description')->getValue(),
-                    'tag' => $form->get('tag')->getValue(),
-                    'userId' => $form->get('userId')->getValue()
-                ));
-                $response = $request->send()->getContent();
+                $category = new Category();
+                $category->setName($form->get('name')->getValue())
+                         ->setTag($form->get('tag')->getValue())
+                         ->setDescription($form->get('description')->getValue())
+                         ->setIdUser($form->get('userId')->getValue());
+                $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
+                    ->persist($category);
+                $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
+                            ->flush();
             } else {
-                $request = new Client();
-                $request->setMethod('PUT');
-                $request->setUri("http://zend2.local/gablog/ws/category-rest/{$form->get('categoryId')->getValue()}");
-                $request->setParameterPost(array(
-                            'name' => $form->get('name')->getValue(),
-                            'description' => $form->get('description')->getValue(),
-                            'tag' => $form->get('tag')->getValue(),
-                            'userId' => $form->get('userId')->getValue()
-                        ));
-                $response = $request->send()->getContent();
+                $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
+                ->getRepository('GaBlog\Entity\Category')->find($form->get('categoryId')->getValue());
+                $category->setName($form->get('name')->getValue())
+                         ->setTag($form->get('tag')->getValue())
+                         ->setDescription($form->get('description')->getValue())
+                         ->setIdUser($form->get('userId')->getValue());
+                $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->persist($category);
+                $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->flush();
             }
-            return false;
         }
 
         return new ViewModel(array(
-            'message' => $response
+            'message' => 'ok'
         ));
     }
 
     public function listAction()
     {
-        $request = new Client();
-        $request->setMethod('GET');
-        $request->setUri('http://zend2.local/gablog/ws/category-rest');
-        $response = $request->send()->getContent();
-        $response = json_decode($response, true);
+        $categories = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
+            ->getRepository('GaBlog\Entity\Category')->findAll();
+        foreach($categories as $ii => $category){
+            $categories[$ii] = $category->toArray();
+        }
         return new ViewModel(array(
-            'categories' => $response,
+            'categories' => $categories,
         ));
     }
     
     public function delAction()
     {
-        $request = new Client();
-        $request->setMethod('DELETE');
-        $request->setUri("http://zend2.local/gablog/ws/category-rest/{$this->getRequest()->getPost('id')}");
-        $response = $request->send()->getContent();
-        $response = json_decode($response, true);
+        $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
+        ->getRepository('GaBlog\Entity\Category')->find($this->getRequest()->getPost('id'));
+        $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->remove($category);
+        $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->flush();
         return false;
     }
 }

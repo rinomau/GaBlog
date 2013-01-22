@@ -75,7 +75,7 @@ class Category
      */
     function getDateTimeCreated()
     {
-        return $this->dateTimeCreated;
+        return $this->dateTimeCreated->format('Y-m-d G:m:s');
     }
 
     /**
@@ -144,5 +144,17 @@ class Category
     {
         $this->idUser = $iu;
         return $this;
+    }
+    
+    function toArray()
+    {
+        return  array(
+                'name' => $this->getName(),
+                'created' => $this->getDateTimeCreated(),
+                'description' => $this->getDescription(),
+                'tag' => $this->getTag(),
+                'idUser' => $this->getIdUser(),
+                'id' => $this->getId()
+            );
     }
 }
