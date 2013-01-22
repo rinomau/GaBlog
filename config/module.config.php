@@ -2,26 +2,14 @@
 return array(
     'router' => array(
         'routes' => array(
-            'rest' => array(
-                'type' => 'segment',
-                'options' => array(
-                    'route' => '/gablog/ws[/:controller[/:id]]',
-                    'constraints' => array(
-                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]+',
-                        'id' => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                    ),
-                ),
-            ),
             'blog' => array(
                 'type' => 'segment',
                 'options' => array(
                     'route' => '/blog[/:controller[/:action[/:id]]]',
                     'constraints' => array(
                         'controller' => '[a-zA-Z][a-zA-Z0-9_-]+',
-                        'action' => '[a-zA-Z][a-zA-Z0-9_-]+',
-                        'id' => '[0-9]+',
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]*',
                     ),
                     'defaults' => array(
                     ),
