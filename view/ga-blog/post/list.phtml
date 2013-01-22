@@ -13,16 +13,16 @@
                 <th class="span2"></th>
             </tr>
             <?foreach($this->posts as $post){?>
-            <tr id="<?=$post['id']?>">
-                <td><?=$post['title']?></td>
-                <td><?=$post['status']?></td>
-                <td><?=$post['created']?></td>
-                <td><?=$post['userId']?></td>
-                <td><?=$post['categoryId']?></td>
+            <tr id="<?=$post->getId()?>">
+                <td><?=$post->getTitle()?></td>
+                <td><?=$post->getStatus()?></td>
+                <td><?=$post->getDateTimeCreated()?></td>
+                <td><?=$post->getIdUser()?></td>
+                <td><?=$post->getCategory()->getName()?></td>
                 <td>
-                    <span data-id="<?=$post['id']?>" class="del">Del</span>
-                    <span data-id="<?=$post['id']?>" class="edit">
-                        <a href="/blog/post/new/<?=$post['id']?>" target="_self">Edit</a>
+                    <span data-id="<?=$post->getId()?>" class="del">Del</span>
+                    <span data-id="<?=$post->getId()?>" class="edit">
+                        <a href="/blog/post/new/<?=$post->getId()?>" target="_self">Edit</a>
                     </span>
                 </td>
             </tr>

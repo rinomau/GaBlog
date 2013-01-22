@@ -21,8 +21,9 @@ class Post
      * @var string
      */
     private $title;
+    
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * @var string
      */
     private $description;
@@ -32,7 +33,7 @@ class Post
      */
     private $content;
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * @var string
      */
     private $tag;
@@ -47,7 +48,7 @@ class Post
      */
     private $dateTimePublish;
     /**
-     * @ORM\Column(type="datetime", name="unpublish")
+     * @ORM\Column(type="datetime", name="unpublish", nullable=true)
      * @var datetime
      */
     private $dateTimeUnpublish;
@@ -61,12 +62,6 @@ class Post
      * @var int
      */
     private $idUser;
-
-    /**
-     * @ORM\Column(type="integer", name="id_category")
-     * @var int
-     */
-    private $idCategory;
     
     /**
      * @ORM\ManyToOne(targetEntity="GaBlog\Entity\Category", inversedBy="post")
@@ -139,14 +134,7 @@ class Post
         else
             return null;
     }
-
-    /**
-     * @return int
-     */
-    function getIdCategory()
-    {
-        return $this->idCategory;
-    }
+    
     /**
      * @return int
      */
@@ -201,17 +189,7 @@ class Post
         $this->content = $c;
         return $this;
     }
-
-    /**
-     * 
-     * @param int $ic
-     * @return \GaBlog\Entity\Post
-     */
-    function setIdCategory($ic)
-    {
-        $this->idCategory = $ic;
-        return $this;
-    }
+    
     /**
      * @param $t
      * @return $this
@@ -311,5 +289,11 @@ class Post
     function getCategory()
     {
         return $this->category;
+    }
+    
+    function setCategory(Category $cat)
+    {
+        $this->category = $cat;
+        return $this;
     }
 }

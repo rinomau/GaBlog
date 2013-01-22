@@ -43,30 +43,31 @@ class PostController
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost());
+            $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
+            ->getRepository('GaBlog\Entity\Category')->find($form->get('categoryId')->getValue());
             if("" === $form->get('id')->getValue()){
                 $post = new Post();
-                $post->setTitle($form->get('title')->getValue());
-                $post->setContent($form->get('content')->getValue());
-                $post->setDateTimeCreated(date('Y-m-d G:m:s'));
-                $post->setDescription($form->get('description')->getValue());
-                $post->setTag($form->get('tag')->getValue());
-                $post->setIdCategory($form->get('categoryId')->getValue());
-                $post->setIdUser(0);
-                $post->setStatus($form->get('status')->getValue());
+                $post->setDateTimeCreated(new \DateTime(date('Y-m-d G:m:s')));
             } else {
-                $post = new Post();
-                $post->setId($form->get('id')->getValue());
+                $post = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
+                ->getRepository('GaBlog\Entity\Post')->find($form->get('id')->getValue());
+            }
                 $post->setTitle($form->get('title')->getValue());
                 $post->setContent($form->get('content')->getValue());
+                $post->setDateTimePublish(new \DateTime(date('Y-m-d G:m:s')));
+                if($form->get('unpublish')->getValue()){
+                    $post->setDateTimeUnPublish(
+                            new \DateTime($form->get('unpublish')->getValue()));
+                } else {
+                    $post->setDateTimeUnPublish(null);
+                }
                 $post->setDescription($form->get('description')->getValue());
                 $post->setTag($form->get('tag')->getValue());
-                $post->setIdCategory($form->get('categoryId')->getValue());
+                $post->setCategory($category);
                 $post->setIdUser(0);
                 $post->setStatus($form->get('status')->getValue());
-            }
             $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->persist($post);
             $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->flush();
-            return $this->listAction();
         }
 
         return new ViewModel(array(
@@ -78,10 +79,6 @@ class PostController
     {
         $posts = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
             ->getRepository('GaBlog\Entity\Post')->findAll();
-        foreach($posts as $ii => $post){
-            $category=$post->getCategory();
-            $posts[$ii] = $post->toArray();
-        }
         return new ViewModel(array(
             'posts' => $posts,
         ));

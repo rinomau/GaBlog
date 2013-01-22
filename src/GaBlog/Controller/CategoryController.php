@@ -44,25 +44,19 @@ class CategoryController
             $form->setData($request->getPost());
             if("" === $form->get('categoryId')->getValue()){
                 $category = new Category();
-                $category->setDateTimeCreated(date('Y-m-d G:m:s'))
-                         ->setName($form->get('name')->getValue())
-                         ->setTag($form->get('tag')->getValue())
-                         ->setDescription($form->get('description')->getValue())
-                         ->setIdUser($form->get('userId')->getValue());
-                $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
-                    ->persist($category);
-                $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
-                            ->flush();
+                $category->setDateTimeCreated(date('Y-m-d G:m:s'));
             } else {
                 $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
                 ->getRepository('GaBlog\Entity\Category')->find($form->get('categoryId')->getValue());
-                $category->setName($form->get('name')->getValue())
-                         ->setTag($form->get('tag')->getValue())
-                         ->setDescription($form->get('description')->getValue())
-                         ->setIdUser($form->get('userId')->getValue());
-                $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->persist($category);
-                $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->flush();
             }
+            $category->setName($form->get('name')->getValue());
+            $category->setTag($form->get('tag')->getValue());
+            $category->setDescription($form->get('description')->getValue());
+            $category->setIdUser($form->get('userId')->getValue());
+            $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
+                ->persist($category);
+            $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
+                ->flush();
         }
 
         return new ViewModel(array(
