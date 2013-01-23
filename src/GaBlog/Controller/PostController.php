@@ -72,10 +72,7 @@ class PostController
             $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->persist($post);
             $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->flush();
         }
-
-        return new ViewModel(array(
-            'message' => 'ciao'
-        ));
+        return $this->redirect()->toRoute('blog', array('controller'=>'post', 'action'=>'list'));
     }
 
     /**
