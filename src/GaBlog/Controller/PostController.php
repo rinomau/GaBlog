@@ -23,13 +23,15 @@ class PostController
      */
     public function newAction()
     {
-        $form = new PostEdit();
+        $form = $this->getServiceLocator()->get('gablog_form_post');
         $categories = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
         ->getRepository('GaBlog\Entity\Category')->findAll();
-        foreach($categories as $category){
-            $params[$category->getId()] = $category->getName();
+        if($categories){
+            foreach($categories as $category){
+                $params[$category->getId()] = $category->getName();
+            }
+            $form->get('categoryId')->setValueOptions($params);
         }
-        $form->get('categoryId')->setValueOptions($params);
         if($this->params('id')){
             $post = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
             ->getRepository('GaBlog\Entity\Post')->find($this->params('id'));
@@ -46,7 +48,7 @@ class PostController
      */
     public function addAction()
     {
-        $form = new PostEdit();
+        $form = $this->getServiceLocator()->get('gablog_form_post');
 
         $request = $this->getRequest();
         if ($request->isPost()) {
@@ -54,7 +56,7 @@ class PostController
             $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
             ->getRepository('GaBlog\Entity\Category')->find($form->get('categoryId')->getValue());
             if("" === $form->get('id')->getValue()){
-                $post = new Post();
+                $post = $this->getServiceLocator()->get('gablog_entity_post');
                 $post->setDateTimeCreated(new \DateTime(date('Y-m-d G:m:s')));
             } else {
                 $post = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')

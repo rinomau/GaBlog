@@ -22,7 +22,7 @@ class CategoryController
      */
     public function newAction()
     {
-        $form = new CategoryEdit();
+        $form = $category = $this->getServiceLocator()->get('gablog_form_category');
         if($this->params('id')){
             $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
             ->getRepository('GaBlog\Entity\Category')->find($this->params('id'));
@@ -45,13 +45,13 @@ class CategoryController
      */
     public function addAction()
     {
-        $form = new CategoryEdit();
+        $form = $category = $this->getServiceLocator()->get('gablog_form_category');
 
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost());
             if("" === $form->get('categoryId')->getValue()){
-                $category = new Category();
+                $category = $form = $category = $this->getServiceLocator()->get('gablog_entity_category');
                 $category->setDateTimeCreated(new \DateTime(date('Y-m-d G:m:s')));
             } else {
                 $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
