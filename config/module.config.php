@@ -51,22 +51,19 @@ return array(
                 )
             )
         ),
-        /*
-         * I use this conf into globa.conf
         'connection' => array(
             // default connection name
             'orm_default' => array(
                 'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
                 'params' => array(
-                    'host'     => 'localhost',
+                    'host'     => '127.0.0.1',
                     'port'     => '3306',
-                    'user'     => 'username',
-                    'password' => 'password',
-                    'dbname'   => 'database',
+                    'user'     => 'root',
+                    'password' => 'ciao',
+                    'dbname'   => 'cmsga',
                 )
             )
         )
-        */
     ),
     'zfcuser' => array(
         'user_entity_class'       => 'GaBlog\Entity\User',

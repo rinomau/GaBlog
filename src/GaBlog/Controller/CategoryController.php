@@ -51,7 +51,7 @@ class CategoryController
         if ($request->isPost()) {
             $form->setData($request->getPost());
             if("" === $form->get('categoryId')->getValue()){
-                $category = $form = $category = $this->getServiceLocator()->get('gablog_entity_category');
+                $category = $this->getServiceLocator()->get('gablog_entity_category');
                 $category->setDateTimeCreated(new \DateTime(date('Y-m-d G:m:s')));
             } else {
                 $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
@@ -66,10 +66,7 @@ class CategoryController
             $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
                 ->flush();
         }
-
-        return new ViewModel(array(
-            'message' => 'ok'
-        ));
+        return $this->redirect()->toRoute('blog', array('controller'=>'category', 'action'=>'list'));
     }
 
     /**
