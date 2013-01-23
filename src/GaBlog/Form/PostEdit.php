@@ -99,8 +99,8 @@ extends Form
                         'value_options' => array(
                                     '0' => 'Draft',
                                     '1' => 'Publish',
-                                    '2' => 'Unpublish',
-                                    '3' => 'Inactive'
+                                   // '2' => 'Unpublish',
+                                   // '3' => 'Inactive'
                                 )
                 ),
                 'type' => 'Zend\Form\Element\Select',

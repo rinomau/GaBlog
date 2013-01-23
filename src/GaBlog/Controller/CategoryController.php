@@ -44,7 +44,7 @@ class CategoryController
             $form->setData($request->getPost());
             if("" === $form->get('categoryId')->getValue()){
                 $category = new Category();
-                $category->setDateTimeCreated(date('Y-m-d G:m:s'));
+                $category->setDateTimeCreated(new \DateTime(date('Y-m-d G:m:s')));
             } else {
                 $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
                 ->getRepository('GaBlog\Entity\Category')->find($form->get('categoryId')->getValue());
@@ -52,7 +52,7 @@ class CategoryController
             $category->setName($form->get('name')->getValue());
             $category->setTag($form->get('tag')->getValue());
             $category->setDescription($form->get('description')->getValue());
-            $category->setIdUser($form->get('userId')->getValue());
+            $category->setUser($this->getServiceLocator()->get('zfcuser_auth_service')->getIdentity());
             $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
                 ->persist($category);
             $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
@@ -66,11 +66,9 @@ class CategoryController
 
     public function listAction()
     {
+        $auth = $this->getServiceLocator()->get('zfcuser_auth_service');
         $categories = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
             ->getRepository('GaBlog\Entity\Category')->findAll();
-        foreach($categories as $ii => $category){
-            $categories[$ii] = $category->toArray();
-        }
         return new ViewModel(array(
             'categories' => $categories,
         ));

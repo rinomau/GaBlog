@@ -1,7 +1,6 @@
 <?php
 namespace GaBlog\Entity;
 use Doctrine\ORM\Mapping as ORM;
-
 /**
  * @ORM\Entity @ORM\Table(name="gablog_category")
  */
@@ -12,6 +11,7 @@ class Category
      * @var int
      */
     private $id;
+    
     /**
      * @ORM\Column(type="string")
      * @var string
@@ -33,11 +33,11 @@ class Category
      * @var datetime
      */
     private $dateTimeCreated;
+    
     /**
-     * @ORM\Column(type="integer", name="id_user")
-     * @var int
+     * @ORM\ManyToOne(targetEntity="GaBlog\Entity\User", inversedBy="category")
      */
-    private $idUser;
+    private $user;
     
     /**
      * @ORM\OneToMany(targetEntity="GaBlog\Entity\Post", mappedBy="category")
@@ -52,6 +52,10 @@ class Category
         return $this->id;
     }
 
+    function getUser()
+    {
+        return $this->user;
+    }
     /**
      * @return string
      */
@@ -82,14 +86,6 @@ class Category
     function getDateTimeCreated()
     {
         return $this->dateTimeCreated->format('Y-m-d G:m:s');
-    }
-
-    /**
-     * @return int
-     */
-    function getIdUser()
-    {
-        return $this->idUser;
     }
 
     /**
@@ -141,16 +137,18 @@ class Category
         $this->dateTimeCreated = $dtc;
         return $this;
     }
-
+    
     /**
-     * @param $iu
-     * @return $this
+     * 
+     * @param unknown_type $us
+     * @return \GaBlog\Entity\Category
      */
-    function setIdUser($iu)
+    function setUser(User $us)
     {
-        $this->idUser = $iu;
+        $this->user = $us;
         return $this;
     }
+
     
     function toArray()
     {
@@ -159,7 +157,7 @@ class Category
                 'created' => $this->getDateTimeCreated(),
                 'description' => $this->getDescription(),
                 'tag' => $this->getTag(),
-                'idUser' => $this->getIdUser(),
+                'user' => $this->getUser(),
                 'id' => $this->getId()
             );
     }

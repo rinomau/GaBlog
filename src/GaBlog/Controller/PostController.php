@@ -54,24 +54,17 @@ class PostController
             }
                 $post->setTitle($form->get('title')->getValue());
                 $post->setContent($form->get('content')->getValue());
-                $post->setDateTimePublish(new \DateTime(date('Y-m-d G:m:s')));
-                if($form->get('unpublish')->getValue()){
-                    $post->setDateTimeUnPublish(
-                            new \DateTime($form->get('unpublish')->getValue()));
-                } else {
-                    $post->setDateTimeUnPublish(null);
-                }
                 $post->setDescription($form->get('description')->getValue());
                 $post->setTag($form->get('tag')->getValue());
                 $post->setCategory($category);
-                $post->setIdUser(0);
+                $post->setUser($this->getServiceLocator()->get('zfcuser_auth_service')->getIdentity());
                 $post->setStatus($form->get('status')->getValue());
             $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->persist($post);
             $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->flush();
         }
 
         return new ViewModel(array(
-            'message' => $response
+            'message' => 'ciao'
         ));
     }
 

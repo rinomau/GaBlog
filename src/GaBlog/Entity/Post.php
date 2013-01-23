@@ -9,8 +9,6 @@ class Post
 {
     const STATUS_Draft = 0;
     const STATUS_Publish = 1;
-    const STATUS_Unpublish = 2;
-    const STATUS_Inactive = 3;
     /**
      * @ORM\Id @ORM\Column(type="integer") @ORM\GeneratedValue
      * @var int
@@ -43,7 +41,7 @@ class Post
      */
     private $dateTimeCreated;
     /**
-     * @ORM\Column(type="datetime", name="publish")
+     * @ORM\Column(type="datetime", name="publish", nullable=true)
      * @var datetime
      */
     private $dateTimePublish;
@@ -58,10 +56,10 @@ class Post
      */
     private $status;
     /**
-     * @ORM\Column(type="integer", name="id_user")
+     * @ORM\ManyToOne(targetEntity="GaBlog\Entity\User", inversedBy="post")
      * @var int
      */
-    private $idUser;
+    private $user;
     
     /**
      * @ORM\ManyToOne(targetEntity="GaBlog\Entity\Category", inversedBy="post")
@@ -146,9 +144,9 @@ class Post
     /**
      * @return int
      */
-    function getIdUser()
+    function getUser()
     {
-        return $this->idUser;
+        return $this->user;
     }
     /**
      * @param $id
@@ -244,9 +242,9 @@ class Post
      * @param $i
      * @return $this
      */
-    function setIdUser($i)
+    function setUser(User $i)
     {
-        $this->idUser = $i;
+        $this->user = $i;
         return $this;
     }
     
@@ -280,17 +278,22 @@ class Post
             return 'Draft';
         elseif($this->status == 1)
             return 'Publish';
-        elseif($this->status == 2)
-            return 'Unpublish';
-        elseif($this->status == 3)
-        return 'Inactive';
     }
     
+    /**
+     * get category of a post
+     * @return Category
+     */
     function getCategory()
     {
         return $this->category;
     }
     
+    /**
+     * set category for a post
+     * @param Category $cat
+     * @return \GaBlog\Entity\Post
+     */
     function setCategory(Category $cat)
     {
         $this->category = $cat;
