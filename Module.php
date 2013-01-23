@@ -9,6 +9,7 @@
 
 namespace GaBlog;
 
+use Doctrine\ORM\Mapping\Entity;
 use Zend\ModuleManager\Feature;
 use Zend\EventManager\EventInterface;
 use Zend\Mvc\MvcEvent;
@@ -45,5 +46,30 @@ class Module implements
             $view     = $sm->get('ViewManager')->getView();
             $strategy->attach($view->getEventManager());
         });
+    }
+
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                'gablog_form_category' => function() {
+                    $form = new Form\CategoryEdit();
+                    return $form;
+                },
+                'gablog_form_post' => function() {
+                    $form = new Form\PostEdit();
+                    return $form;
+                },
+                'gablog_entity_category' => function() {
+                    return new \GaBlog\Entity\Category();
+                },
+                'gablog_entity_post' => function() {
+                    return new \GaBlog\Entity\Post();
+                },
+                'gablog_entity_user' => function() {
+                    return new \GaBlog\Entity\User();
+                },
+            ),
+        );
     }
 }
