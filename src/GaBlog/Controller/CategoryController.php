@@ -17,7 +17,7 @@ class CategoryController
     extends AbstractActionController
 {
     /**
-     * create a form and populate if is a edit
+     * create a form and populate if is a edit.
      * @return \Zend\View\Model\ViewModel
      */
     public function newAction()
