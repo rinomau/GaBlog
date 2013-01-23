@@ -27,20 +27,27 @@ return array(
     ),
     'view_manager' => array(
         'doctype'                  => 'HTML5',
+        'not_found_template'       => 'error/404',
+        'exception_template'       => 'error/index',
+        'template_map' => array(
+            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
+            'error/404'               => __DIR__ . '/../view/error/404.phtml',
+            'error/index'             => __DIR__ . '/../view/error/index.phtml',
+        ),
         'template_path_stack' => array(
             'websenzafrontiere' => __DIR__ . '/../view',
         ),
     ),
     'doctrine' => array(
         'driver' => array(
-            'GaBlog_driver' => array(
+            'zfcuser_entity' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => array(__DIR__ . '/../src/GaBlog/Entity')
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    'GaBlog\Entity' => 'GaBlog_driver'
+                    'GaBlog\Entity' => 'zfcuser_entity',
                 )
             )
         ),
@@ -61,6 +68,16 @@ return array(
         )
         */
     ),
+    'zfcuser' => array(
+        'user_entity_class'       => 'GaBlog\Entity\User',
+         'enable_registration'     => true,
+         'enable_default_entities' => false,
+         'enable_username'         => true,
+         'enable_display_name'     => true,
+         'auth_identity_fields'    => array(
+                 'username'
+         ),
+     ),
     'asset_manager' => array(
         'resolver_configs' => array(
             'paths' => array(
