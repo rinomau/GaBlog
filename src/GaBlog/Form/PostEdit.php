@@ -5,6 +5,11 @@ namespace GaBlog\Form;
 use Zend\Form\Form;
 use Zend\Form\Element;
 
+/**
+ * Form for create and edit post
+ * @author Gianluca Arbezzano <gianarb92@gmail.com>
+ *
+ */
 class PostEdit
 extends Form
 {

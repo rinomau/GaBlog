@@ -16,6 +16,10 @@ use GaBlog\Entity\Category;
 class CategoryController
     extends AbstractActionController
 {
+    /**
+     * create a form and populate if is a edit
+     * @return \Zend\View\Model\ViewModel
+     */
     public function newAction()
     {
         $form = new CategoryEdit();
@@ -35,6 +39,10 @@ class CategoryController
         ));
     }
 
+    /**
+     * Add new category
+     * @return \Zend\View\Model\ViewModel
+     */
     public function addAction()
     {
         $form = new CategoryEdit();
@@ -64,6 +72,10 @@ class CategoryController
         ));
     }
 
+    /**
+     * Grid with list of All Category
+     * @return \Zend\View\Model\ViewModel
+     */
     public function listAction()
     {
         $auth = $this->getServiceLocator()->get('zfcuser_auth_service');
@@ -74,6 +86,9 @@ class CategoryController
         ));
     }
     
+    /**
+     * Delete a single record
+     */
     public function delAction()
     {
         $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')

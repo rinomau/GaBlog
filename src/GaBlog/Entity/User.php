@@ -2,6 +2,7 @@
 namespace GaBlog\Entity;
 use Doctrine\ORM\Mapping as ORM;
 /**
+ * @author Gianluca Arbezzano <gianarb92@gmail.com>
  * @ORM\Entity @ORM\Table(name="ga_user")
  */
 class User 

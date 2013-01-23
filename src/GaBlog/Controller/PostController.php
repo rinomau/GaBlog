@@ -17,6 +17,10 @@ use ZendTest\XmlRpc\Server\Exception;
 class PostController
     extends AbstractActionController
 {
+    /**
+     * crete form and populate if is a edit
+     * @return \Zend\View\Model\ViewModel
+     */
     public function newAction()
     {
         $form = new PostEdit();
@@ -36,6 +40,10 @@ class PostController
         ));
     }
 
+    /**
+     * add and edit record
+     * @return \Zend\View\Model\ViewModel
+     */
     public function addAction()
     {
         $form = new PostEdit();
@@ -68,6 +76,10 @@ class PostController
         ));
     }
 
+    /**
+     * list all post
+     * @return \Zend\View\Model\ViewModel
+     */
     public function listAction()
     {
         $posts = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
@@ -77,6 +89,10 @@ class PostController
         ));
     }
     
+    /**
+     * delete a single record
+     * @return boolean
+     */
     public function delAction()
     {
         $post = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')

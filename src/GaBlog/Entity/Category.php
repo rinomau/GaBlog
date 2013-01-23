@@ -2,6 +2,7 @@
 namespace GaBlog\Entity;
 use Doctrine\ORM\Mapping as ORM;
 /**
+ * @author Gianluca Arbezzano <gianarb92@gmail.com>
  * @ORM\Entity @ORM\Table(name="gablog_category")
  */
 class Category
@@ -149,7 +150,10 @@ class Category
         return $this;
     }
 
-    
+    /**
+     * return array of this object
+     * @return array
+     */
     function toArray()
     {
         return  array(
