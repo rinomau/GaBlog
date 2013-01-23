@@ -15,9 +15,9 @@
             <?foreach($this->posts as $post){?>
             <tr id="<?=$post->getId()?>">
                 <td><?=$post->getTitle()?></td>
-                <td><?=$post->getStatus()?></td>
+                <td><?=$post->translateStatus()?></td>
                 <td><?=$post->getDateTimeCreated()?></td>
-                <td><?=$post->getIdUser()?></td>
+                <td><?=$post->getUser()->getUsername()?></td>
                 <td><?=$post->getCategory()->getName()?></td>
                 <td>
                     <span data-id="<?=$post->getId()?>" class="del">Del</span>

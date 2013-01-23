@@ -62,7 +62,7 @@ echo $this->form()->openTag($form);
               </div>
            </div>
         </div>
-        <div class="span3">
+        <?php /*<div class="span3">
             <div class="span12">
                    <?php
                    $name = $form->get('created');
@@ -81,7 +81,7 @@ echo $this->form()->openTag($form);
                    echo $this->formRow($name);
                    ?>
            </div>
-        </div>
+        </div> */?>
     </div>
     <?php echo $this->formHidden($form->get('id')) ?>
         <?php echo $this->formElement($form->get('submit')) ?>

@@ -13,16 +13,16 @@
                 <th class="span1"></th>
             </tr>
             <?foreach($this->categories as $category){?>
-            <tr id="<?=$category['id']?>">
-                <td><?=$category['name']?></td>
-                <td><?=$category['description']?></td>
-                <td><?=$category['created']?></td>
-                <td><?=$category['idUser']?></td>
-                <td><?=$category['tag']?></td>
+            <tr id="<?=$category->getId()?>">
+                <td><?=$category->getName()?></td>
+                <td><?=$category->getDescription()?></td>
+                <td><?=$category->getDateTimeCreated()?></td>
+                <td><?=$category->getUser()->getUsername()?></td>
+                <td><?=$category->getTag()?></td>
                 <td>
-                    <span data-id="<?=$category['id']?>" class="del">Del</span>
-                    <span data-id="<?=$category['id']?>" class="edit">
-                        <a href="/blog/category/new/<?=$category['id']?>" target="_self">Edit</a>
+                    <span data-id="<?=$category->getId()?>" class="del">Del</span>
+                    <span data-id="<?=$category->getId()?>" class="edit">
+                        <a href="/blog/category/new/<?=$category->getId()?>" target="_self">Edit</a>
                     </span>
                 </td>
             </tr>
