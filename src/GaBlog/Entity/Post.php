@@ -120,7 +120,10 @@ class Post
      */
     function getDateTimePublish()
     {
-        return $this->dateTimePublish->format('Y-m-d G:m:s');
+        if($this->dateTimePublish)
+            return $this->dateTimePublish->format('Y-m-d G:m:s');
+        else
+            return null;
     }
 
     /**
@@ -260,12 +263,12 @@ class Post
                   'description' => $this->getDescription(),
                   'tag' => $this->getTag(),
                   'categoryId' => $this->getId(),
-                  'userId' => $this->getIdUser(),
+                  'userId' => $this->getUser()->getUsername(),
                   'content' => $this->getContent(),
                   'id' => $this->getId(),
-                  'created' => $this->getDateTimeCreated(),
-                  'publish' => $this->getDateTimePublish(),
-                  'unpublish' => $this->getDateTimeUnpublish(),
+                  //'created' => $this->getDateTimeCreated(),
+                  //'publish' => $this->getDateTimePublish(),
+                  //'unpublish' => $this->getDateTimeUnpublish(),
                   'status' => $this->getStatus()
                );
     }
