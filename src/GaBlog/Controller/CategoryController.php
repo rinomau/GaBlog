@@ -26,13 +26,7 @@ class CategoryController
         if($this->params('id')){
             $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
             ->getRepository('GaBlog\Entity\Category')->find($this->params('id'));
-            $form->populateValues(array(
-                        'name' => $category->getName(),
-                        'description' => $category->getDescription(),
-                        'tag' => $category->getTag(),
-                        'categoryId' => $category->getId(),
-                        'userId' => $category->getIdUser()
-                    ));
+            $form->populateValues($category->toArray());
         }
         return new ViewModel(array(
             'form' => $form
@@ -75,7 +69,6 @@ class CategoryController
      */
     public function listAction()
     {
-        $auth = $this->getServiceLocator()->get('zfcuser_auth_service');
         $categories = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
             ->getRepository('GaBlog\Entity\Category')->findAll();
         return new ViewModel(array(
