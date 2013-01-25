@@ -12,6 +12,7 @@ namespace GaBlog;
 use Doctrine\ORM\Mapping\Entity;
 use Zend\ModuleManager\Feature;
 use Zend\EventManager\EventInterface;
+use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
 class Module implements
@@ -35,6 +36,7 @@ class Module implements
 
     public function onBootstrap(EventInterface $e)
     {
+        $e->getApplication()->getServiceManager()->get('translator');
         $app = $e->getApplication();
         $em  = $app->getEventManager()->getSharedManager();
         $sm  = $app->getServiceManager();
