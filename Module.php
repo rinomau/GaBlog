@@ -15,8 +15,7 @@ use Zend\EventManager\EventInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
-class Module implements
-    Feature\BootstrapListenerInterface
+class Module
 {
     public function getConfig()
     {
@@ -34,20 +33,12 @@ class Module implements
         );
     }
 
-    public function onBootstrap(EventInterface $e)
+    public function onBootstrap(MvcEvent $e)
     {
         $e->getApplication()->getServiceManager()->get('translator');
-        $app = $e->getApplication();
-        $em  = $app->getEventManager()->getSharedManager();
-        $sm  = $app->getServiceManager();
-        $em->attach(array(
-            'GaBlog\Controller\CategoryRestController',
-            'GaBlog\Controller\PostRestController'
-        ), MvcEvent::EVENT_DISPATCH, function($e) use ($sm) {
-            $strategy = $sm->get('ViewJsonStrategy');
-            $view     = $sm->get('ViewManager')->getView();
-            $strategy->attach($view->getEventManager());
-        });
+        $eventManager        = $e->getApplication()->getEventManager();
+        $moduleRouteListener = new ModuleRouteListener();
+        $moduleRouteListener->attach($eventManager);
     }
 
     public function getServiceConfig()
