@@ -6,8 +6,10 @@ Manage
 * Category
 * Post
 
-Base Skeleton is a RestServer, becouse primaries are create, getList, get, update and delite, for both entity.
+In this Module you have ready possibility of create category and insert new post.
+I have implemented a UserIterface of ZfcUser for to use User Services, becouse
+Post and Category are assigned at a user.
 
-Exist a external field from Post entity, idUser for manage a parent of single article.
+CkEditor is a standard editor if this module use for writes new blog post.
 
 Coming Soon!
