@@ -5,11 +5,11 @@
     } else {?>
         <table class="table table-bordered">
             <tr>
-                <th class="span2">Nome</th>
-                <th class="span3">Descrizione</th>
-                <th class="span2">Creato</th>
-                <th class="span2">Utente</th>
-                <th class="span2">Tag</th>
+                <th class="span2"><?php echo $this->translate('Name');?></th>
+                <th class="span3"><?php echo $this->translate('Description');?></th>
+                <th class="span2"><?php echo $this->translate('Created');?></th>
+                <th class="span2"><?php echo $this->translate('User');?></th>
+                <th class="span2"><?php echo $this->translate('Tag');?></th>
                 <th class="span1"></th>
             </tr>
             <?foreach($this->categories as $category){?>

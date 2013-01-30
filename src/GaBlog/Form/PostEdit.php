@@ -21,7 +21,7 @@ extends Form
         $this->add(array(
                 'name' => 'title',
                 'options' => array(
-                        'label' => 'Titolo',
+                        'label' => 'Title',
                 ),
                 'attributes' => array(
                         'type' => 'text',
@@ -44,7 +44,7 @@ extends Form
         $this->add(array(
                 'name' => 'created',
                 'options' => array(
-                        'label' => 'Creato il',
+                        'label' => 'Created',
                 ),
                 'attributes' => array(
                         'type' => 'text',

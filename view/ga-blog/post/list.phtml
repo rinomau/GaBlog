@@ -5,11 +5,11 @@
     } else {?>
         <table class="table table-bordered">
             <tr>
-                <th class="span2">Titolo</th>
-                <th class="span1">Stato</th>
-                <th class="span3">Creato</th>
-                <th class="span2">Utente</th>
-                <th class="span2">Categoria</th>
+                <th class="span2"><?php echo $this->translate('Title');?></th>
+                <th class="span1"><?php echo $this->translate('Status');?></th>
+                <th class="span3"><?php echo $this->translate('Created');?></th>
+                <th class="span2"><?php echo $this->translate('User');?></th>
+                <th class="span2"><?php echo $this->translate('Category');?></th>
                 <th class="span2"></th>
             </tr>
             <?foreach($this->posts as $post){?>
@@ -20,9 +20,9 @@
                 <td><?=$post->getUser()->getUsername()?></td>
                 <td><?=$post->getCategory()->getName()?></td>
                 <td>
-                    <span data-id="<?=$post->getId()?>" class="del">Del</span>
+                    <span data-id="<?=$post->getId()?>" class="del"><i class=icon-trash></i></span>
                     <span data-id="<?=$post->getId()?>" class="edit">
-                        <a href="/blog/post/new/<?=$post->getId()?>" target="_self">Edit</a>
+                        <a href="/blog/post/new/<?=$post->getId()?>" target="_self"><i class=icon-file></i></a>
                     </span>
                 </td>
             </tr>
