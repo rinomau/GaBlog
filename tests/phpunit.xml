@@ -4,6 +4,11 @@
          colors="true"
          mapTestClassNameToCoveredClassName="true"
         >
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../src</directory>
+        </whitelist>
+    </filter>
     <testsuite name="Sandbox Test Suite">
        <directory>.</directory>
    </testsuite>
