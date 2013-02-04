@@ -19,8 +19,6 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'PostRest' => 'GaBlog\Controller\PostRestController',
-            'CategoryRest' => 'GaBlog\Controller\CategoryRestController',
             'Category' => 'GaBlog\Controller\CategoryController',
             'Post' => 'GaBlog\Controller\PostController'
         ),
@@ -35,7 +33,7 @@ return array(
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
         ),
         'template_path_stack' => array(
-            'websenzafrontiere' => __DIR__ . '/../view',
+            'gablog' => __DIR__ . '/../view',
         ),
     ),
     'doctrine' => array(
@@ -97,4 +95,7 @@ return array(
             ),
         ),
     ),
+    'comment' => array(
+        'active' => 1
+    )
 );

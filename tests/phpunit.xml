@@ -10,7 +10,7 @@
         </whitelist>
     </filter>
     <testsuite name="Sandbox Test Suite">
-       <directory>.</directory>
+       <directory>./</directory>
    </testsuite>
     <logging>
         <log type="coverage-html"
