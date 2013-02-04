@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="Bootstrap.php"
+         backupGlobals="false"
+         colors="true"
+         mapTestClassNameToCoveredClassName="true"
+        >
+    <testsuite name="Sandbox Test Suite">
+       <directory>.</directory>
+   </testsuite>
+    <logging>
+        <log type="coverage-html"
+             highLowerBound="80"
+             lowUpperBound="50"
+             highlight="true"
+             yui="true"
+             charset="UTF-8"
+             target="./res/report"
+                />
+        <log type="testdox-html"
+             target="./res/testdox/testdox.html"
+                />
+    </logging>
+</phpunit>
