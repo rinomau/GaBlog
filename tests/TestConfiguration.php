@@ -1,24 +1,13 @@
-<?php
+<?php 
 return array(
     'modules' => array(
-        'Application',
-        'DoctrineModule',
-        'ZendDeveloperTools',
-        'DoctrineORMModule',
-        'ZfcBase',
-        'ZfcUser',
-        'ZfcUserDoctrineORM',
-        'BjyAuthorize',
-        'AssetManager',
         'GaBlog',
     ),
     'module_listener_options' => array(
-        'config_glob_paths'    => array(
-            'config/autoload/{,*.}{global,local}.php',
+        'config_glob_paths' => array(
+            __DIR__ . '/testing.config.php',
         ),
         'module_paths' => array(
-            './module',
-            './vendor',
         ),
     ),
 );
