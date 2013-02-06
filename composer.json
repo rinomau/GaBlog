@@ -18,17 +18,17 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "2.*",
+        "zendframework/zendframework": "2.1.0 as 2.0.7",
         "doctrine/doctrine-orm-module": "0.*",
         "doctrine/doctrine-module" : "*",
         "rwoverdijk/assetmanager" : "*",
         "zf-commons/zfc-base": "dev-master",
         "zf-commons/zfc-user": "dev-master",
-        "bjyoungblood/bjy-authorize" : "*",
-        "zf-commons/zfc-user-doctrine-orm" : "dev-master"
+        "zf-commons/zfc-user-doctrine-orm" : "dev-master",
+        "phpunit/phpunit" : "*"
     },
     "require-dev": {
-        "zendframework/zend-developer-tools": "dev-master"
+        "zendframework/zend-developer-tools" : "dev-master"
     },
     "config": {
         "bin-dir": "bin"

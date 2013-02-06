@@ -53,6 +53,11 @@ class User
      * @ORM\OneToMany(targetEntity="GaBlog\Entity\Post", mappedBy="user")
      */
     private $post;
+
+    /**
+     * @ORM\OneToMany(targetEntity="GaBlog\Entity\Comment", mappedBy="user")
+     */
+    private $comment;
     
     public function getCategory()
     {

@@ -68,6 +68,11 @@ class Post
     private $category;
 
     /**
+     * @ORM\OneToMany(targetEntity="GaBlog\Entity\Comment", mappedBy="post")
+     */
+    private $comment;
+
+    /**
      * @return int
      */
     function getId()
