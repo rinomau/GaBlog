@@ -13,6 +13,7 @@ use Zend\View\Model\ViewModel;
 use Zend\Http\Client;
 use GaBlog\Form\PostEdit;
 use ZendTest\XmlRpc\Server\Exception;
+use GaBlog\Service\CategoryService;
 
 class PostController
     extends AbstractActionController
@@ -23,6 +24,9 @@ class PostController
      */
     public function newAction()
     {
+        $sl = new CategoryService();
+        var_dump($sl);
+        die();
         $form = $this->getServiceLocator()->get('gablog_form_post');
         $categories = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
         ->getRepository('GaBlog\Entity\Category')->findAll();
