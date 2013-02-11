@@ -2,8 +2,6 @@
 namespace GaBlog\Service;
 
 use GaBlog\Entity\Category as CategoryEntity;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class CategoryService
 {
@@ -17,7 +15,7 @@ class CategoryService
      * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
      * @return CategoryEntity Obj
      */
-    public function getEntityManager(ServiceLocatorInterface $serviceLocator)
+    public function __construct()
     {
         return $this->em = $this->getServiceLocator()->
             get('Doctrine\ORM\EntityManager')->getRepository('GaBlog\Entity\Category');
