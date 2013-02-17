@@ -162,7 +162,7 @@ class Category
                 'description' => $this->getDescription(),
                 'tag' => $this->getTag(),
                 'user' => $this->getUser(),
-                'id' => $this->getId()
+                'categoryId' => $this->getId()
             );
     }
 }

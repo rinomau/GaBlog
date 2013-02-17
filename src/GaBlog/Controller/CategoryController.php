@@ -9,9 +9,6 @@ namespace GaBlog\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Http\Client;
-use GaBlog\Form\CategoryEdit;
-use ZendTest\XmlRpc\Server\Exception;
-use GaBlog\Entity\Category;
 
 class CategoryController
     extends AbstractActionController
@@ -24,8 +21,8 @@ class CategoryController
     {
         $form = $category = $this->getServiceLocator()->get('gablog_form_category');
         if($this->params('id')){
-            $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
-            ->getRepository('GaBlog\Entity\Category')->find($this->params('id'));
+            $service = new \GaBlog\Service\CategoryService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
+            $category = $service->find($this->params('id'));
             $form->populateValues($category->toArray());
         }
         return new ViewModel(array(
@@ -40,25 +37,22 @@ class CategoryController
     public function addAction()
     {
         $form = $category = $this->getServiceLocator()->get('gablog_form_category');
-
         $request = $this->getRequest();
+        $service = new \GaBlog\Service\CategoryService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
         if ($request->isPost()) {
             $form->setData($request->getPost());
+            $data = array(
+                'id' => $form->get('categoryId')->getValue(),
+                'name' => $form->get('name')->getValue(),
+                'tag' => $form->get('tag')->getValue(),
+                'description' => $form->get('description')->getValue(),
+                'user' => $this->getServiceLocator()->get('zfcuser_auth_service')->getIdentity()
+            );
             if("" === $form->get('categoryId')->getValue()){
-                $category = $this->getServiceLocator()->get('gablog_entity_category');
-                $category->setDateTimeCreated(new \DateTime(date('Y-m-d G:m:s')));
+                $service->insert($data);
             } else {
-                $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
-                ->getRepository('GaBlog\Entity\Category')->find($form->get('categoryId')->getValue());
+                $service->update($form->get('categoryId')->getValue(), $data);
             }
-            $category->setName($form->get('name')->getValue());
-            $category->setTag($form->get('tag')->getValue());
-            $category->setDescription($form->get('description')->getValue());
-            $category->setUser($this->getServiceLocator()->get('zfcuser_auth_service')->getIdentity());
-            $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
-                ->persist($category);
-            $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
-                ->flush();
         }
         return $this->redirect()->toRoute('blog', array('controller'=>'category', 'action'=>'list'));
     }
@@ -69,8 +63,8 @@ class CategoryController
      */
     public function listAction()
     {
-        $categories = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
-            ->getRepository('GaBlog\Entity\Category')->findAll();
+        $service = new \GaBlog\Service\CategoryService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
+        $categories = $service->find();
         return new ViewModel(array(
             'categories' => $categories,
         ));
@@ -81,10 +75,8 @@ class CategoryController
      */
     public function delAction()
     {
-        $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
-        ->getRepository('GaBlog\Entity\Category')->find($this->getRequest()->getPost('id'));
-        $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->remove($category);
-        $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->flush();
+        $service = new \GaBlog\Service\CategoryService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
+        $service->delete($this->getRequest()->getPost('id'));
         return false;
     }
 }
