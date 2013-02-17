@@ -42,16 +42,6 @@ class Post
      */
     private $dateTimeCreated;
     /**
-     * @ORM\Column(type="datetime", name="publish", nullable=true)
-     * @var datetime
-     */
-    private $dateTimePublish;
-    /**
-     * @ORM\Column(type="datetime", name="unpublish", nullable=true)
-     * @var datetime
-     */
-    private $dateTimeUnpublish;
-    /**
      * @ORM\Column(type="integer")
      * @var int
      */
@@ -118,28 +108,6 @@ class Post
     function getDateTimeCreated()
     {
         return $this->dateTimeCreated->format('Y-m-d G:m:s');
-    }
-
-    /**
-     * @return datetime
-     */
-    function getDateTimePublish()
-    {
-        if($this->dateTimePublish)
-            return $this->dateTimePublish->format('Y-m-d G:m:s');
-        else
-            return null;
-    }
-
-    /**
-     * @return datetime
-     */
-    function getDateTimeUnpublish()
-    {
-        if($this->dateTimeUnpublish)
-            return $this->dateTimeUnpublish->format('Y-m-d G:m:s');
-        else
-            return null;
     }
     
     /**
@@ -218,26 +186,6 @@ class Post
     }
 
     /**
-     * @param $dtp
-     * @return $this
-     */
-    function setDateTimePublish($dtp)
-    {
-        $this->dateTimePublish = $dtp;
-        return $this;
-    }
-
-    /**
-     * @param $dtu
-     * @return $this
-     */
-    function setDateTimeUnpublish($dtu)
-    {
-        $this->dateTimeUnpublish = $dtu;
-        return $this;
-    }
-
-    /**
      * @param int $s
      * @return $this
      */
@@ -271,9 +219,6 @@ class Post
                   'userId' => $this->getUser()->getUsername(),
                   'content' => $this->getContent(),
                   'id' => $this->getId(),
-                  //'created' => $this->getDateTimeCreated(),
-                  //'publish' => $this->getDateTimePublish(),
-                  //'unpublish' => $this->getDateTimeUnpublish(),
                   'status' => $this->getStatus()
                );
     }

@@ -52,29 +52,7 @@ extends Form
                         'disabled' => 'disabled'
                 ),
         ));
-        
-        $this->add(array(
-                'name' => 'publish',
-                'options' => array(
-                        'label' => 'Pubblicato il',
-                ),
-                'attributes' => array(
-                        'type' => 'text',
-                        'class' => 'datepicker'
-                ),
-        ));
-        
-        $this->add(array(
-                'name' => 'unpublish',
-                'options' => array(
-                        'label' => 'Annulla pubblicazione',
-                ),
-                'attributes' => array(
-                        'type' => 'text',
-                        'class' => 'datepicker'
-                ),
-        ));
-        
+
         $this->add(array(
                 'name' => 'description',
                 'options' => array(
@@ -104,8 +82,6 @@ extends Form
                         'value_options' => array(
                                     '0' => 'Draft',
                                     '1' => 'Publish',
-                                   // '2' => 'Unpublish',
-                                   // '3' => 'Inactive'
                                 )
                 ),
                 'type' => 'Zend\Form\Element\Select',

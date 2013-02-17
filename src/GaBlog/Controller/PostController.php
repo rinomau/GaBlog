@@ -6,14 +6,9 @@
 
 namespace GaBlog\Controller;
 
-use GaBlog\Entity\Post;
-
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Http\Client;
-use GaBlog\Form\PostEdit;
-use ZendTest\XmlRpc\Server\Exception;
-use GaBlog\Service\CategoryService;
 
 class PostController
     extends AbstractActionController
@@ -24,12 +19,13 @@ class PostController
      */
     public function newAction()
     {
-        $sl = new CategoryService();
-        var_dump($sl);
-        die();
         $form = $this->getServiceLocator()->get('gablog_form_post');
+
+        //@TODO Use Category Service
         $categories = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
         ->getRepository('GaBlog\Entity\Category')->findAll();
+        //@TODO Use service Locator!
+        $service = new \GaBlog\Service\PostService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
         if($categories){
             foreach($categories as $category){
                 $params[$category->getId()] = $category->getName();
@@ -37,8 +33,7 @@ class PostController
             $form->get('categoryId')->setValueOptions($params);
         }
         if($this->params('id')){
-            $post = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
-            ->getRepository('GaBlog\Entity\Post')->find($this->params('id'));
+            $post = $service->find($this->params('id'));
             $form->populateValues($post->toArray());
         }
         return new ViewModel(array(
@@ -53,28 +48,30 @@ class PostController
     public function addAction()
     {
         $form = $this->getServiceLocator()->get('gablog_form_post');
-
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost());
+
+            //@TODO Use Category Service!
             $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
             ->getRepository('GaBlog\Entity\Category')->find($form->get('categoryId')->getValue());
+            //@TODO Use service Locator!
+            $service = new \GaBlog\Service\PostService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
+            $data = array(
+                'id' => $form->get('id')->getValue(),
+                'title' => $form->get('title')->getValue(),
+                'content' => $form->get('content')->getValue(),
+                'description' => $form->get('description')->getValue(),
+                'tag' => $form->get('tag')->getValue(),
+                'category' => $category,
+                'user' => $this->getServiceLocator()->get('zfcuser_auth_service')->getIdentity(),
+                'status' => $form->get('status')->getValue()
+            );
             if("" === $form->get('id')->getValue()){
-                $post = $this->getServiceLocator()->get('gablog_entity_post');
-                $post->setDateTimeCreated(new \DateTime(date('Y-m-d G:m:s')));
+                $service->insert($data);
             } else {
-                $post = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
-                ->getRepository('GaBlog\Entity\Post')->find($form->get('id')->getValue());
+                $service->update($data['id'], $data);
             }
-                $post->setTitle($form->get('title')->getValue());
-                $post->setContent($form->get('content')->getValue());
-                $post->setDescription($form->get('description')->getValue());
-                $post->setTag($form->get('tag')->getValue());
-                $post->setCategory($category);
-                $post->setUser($this->getServiceLocator()->get('zfcuser_auth_service')->getIdentity());
-                $post->setStatus($form->get('status')->getValue());
-            $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->persist($post);
-            $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->flush();
         }
         return $this->redirect()->toRoute('blog', array('controller'=>'post', 'action'=>'list'));
     }
@@ -85,8 +82,9 @@ class PostController
      */
     public function listAction()
     {
-        $posts = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
-            ->getRepository('GaBlog\Entity\Post')->findAll();
+        //@TODO Use service Locator!
+        $service = new \GaBlog\Service\PostService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
+        $posts = $service->find();
         return new ViewModel(array(
             'posts' => $posts,
         ));
@@ -98,10 +96,9 @@ class PostController
      */
     public function delAction()
     {
-        $post = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
-            ->getRepository('GaBlog\Entity\Post')->find($this->getRequest()->getPost('id'));
-        $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->remove($post);
-        $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->flush();
+        //@TODO Use service Locator!
+        $service = new \GaBlog\Service\PostService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
+        $service->delete($this->getRequest()->getPost('id'));
         return false;
     }
 }
