@@ -20,9 +20,9 @@
                 <td><?=$post->getUser()->getUsername()?></td>
                 <td><?=$post->getCategory()->getName()?></td>
                 <td>
-                    <span data-id="<?=$post->getId()?>" class="del"><i class=icon-trash></i></span>
+                    <span data-id="<?=$post->getId()?>" class="del">Delete</span>
                     <span data-id="<?=$post->getId()?>" class="edit">
-                        <a href="/blog/post/new/<?=$post->getId()?>" target="_self"><i class=icon-file></i></a>
+                        <a href="/blog/post/new/<?=$post->getId()?>" target="_self">Edit</a>
                     </span>
                 </td>
             </tr>

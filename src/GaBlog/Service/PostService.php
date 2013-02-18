@@ -14,7 +14,6 @@ class PostService
     {
         $this->em = $em;
         $this->postEntity = $this->em->getRepository('GaBlog\Entity\Post');
-        return $this;
     }
 
     public function insert(array $data, $persist = true)

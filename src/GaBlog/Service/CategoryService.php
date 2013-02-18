@@ -33,7 +33,6 @@ class CategoryService
     {
         $this->em = $em;
         $this->categoryEntity = $this->em->getRepository('GaBlog\Entity\Category');
-        return $this;
     }
 
     /**
