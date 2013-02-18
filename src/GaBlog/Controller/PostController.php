@@ -58,6 +58,7 @@ class PostController
             //@TODO Use service Locator!
             $service = new \GaBlog\Service\PostService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
             $data = array(
+                'dateTimeCreated' => new \DateTime(),
                 'id' => $form->get('id')->getValue(),
                 'title' => $form->get('title')->getValue(),
                 'content' => $form->get('content')->getValue(),

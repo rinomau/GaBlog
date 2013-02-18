@@ -21,6 +21,7 @@ class CategoryController
     {
         $form = $category = $this->getServiceLocator()->get('gablog_form_category');
         if($this->params('id')){
+            //@TODO use Service Locator!
             $service = new \GaBlog\Service\CategoryService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
             $category = $service->find($this->params('id'));
             $form->populateValues($category->toArray());
@@ -38,10 +39,12 @@ class CategoryController
     {
         $form = $category = $this->getServiceLocator()->get('gablog_form_category');
         $request = $this->getRequest();
+        //@TODO use Service Locator!
         $service = new \GaBlog\Service\CategoryService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
         if ($request->isPost()) {
             $form->setData($request->getPost());
             $data = array(
+                'dateTimeCreated' => new \DateTime(),
                 'id' => $form->get('categoryId')->getValue(),
                 'name' => $form->get('name')->getValue(),
                 'tag' => $form->get('tag')->getValue(),
@@ -63,6 +66,7 @@ class CategoryController
      */
     public function listAction()
     {
+        //@TODO use Service Locator!
         $service = new \GaBlog\Service\CategoryService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
         $categories = $service->find();
         return new ViewModel(array(
@@ -75,6 +79,7 @@ class CategoryController
      */
     public function delAction()
     {
+        //@TODO use Service Locator!
         $service = new \GaBlog\Service\CategoryService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
         $service->delete($this->getRequest()->getPost('id'));
         return false;

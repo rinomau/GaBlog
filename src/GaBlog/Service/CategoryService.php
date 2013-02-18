@@ -4,6 +4,7 @@ namespace GaBlog\Service;
 use GaBlog\Entity\Category as CategoryEntity;
 use Doctrine\ORM\EntityManager;
 use GaBlog\Entity\Category;
+use Zend\Stdlib\Hydrator\ClassMethods;
 
 /**
  * Class CategoryService
@@ -56,12 +57,9 @@ class CategoryService
      */
     public function insert(array $data, $persist = true)
     {
+        $hydrator = new ClassMethods();
         $category = new Category();
-        $category->setName($data['name']);
-        $category->setDateTimeCreated(new \DateTime(date('Y-m-d G:m:s')));
-        $category->setTag($data['tag']);
-        $category->setDescription($data['description']);
-        $category->setUser($data['user']);
+        $category = $hydrator->hydrate($data, $category);
         $rs = null;
         if($persist){
             $this->em->persist($category);

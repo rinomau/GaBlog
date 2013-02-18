@@ -3,6 +3,7 @@
 namespace GaBlog\Service;
 use \Doctrine\ORM\EntityManager;
 use GaBlog\Entity\Post;
+use Zend\Stdlib\Hydrator\ClassMethods;
 
 class PostService
 {
@@ -18,15 +19,9 @@ class PostService
 
     public function insert(array $data, $persist = true)
     {
+        $hydrator = new ClassMethods();
         $post = new Post();
-        $post->setDateTimeCreated(new \DateTime(date('Y-m-d G:m:s')));
-        $post->setTitle($data['title']);
-        $post->setContent($data['content']);
-        $post->setDescription($data['description']);
-        $post->setTag($data['tag']);
-        $post->setCategory($data['category']);
-        $post->setUser($data['user']);
-        $post->setStatus($data['status']);
+        $post = $hydrator->hydrate($data, $post);
         if($persist){
             $this->em->persist($post);
             $this->em->flush();
@@ -35,15 +30,9 @@ class PostService
 
     public function update($id, array $data, $persist = true)
     {
+        $hydrator = new ClassMethods();
         $post = $this->postEntity->find($id);
-        $post->setDateTimeCreated(new \DateTime(date('Y-m-d G:m:s')));
-        $post->setTitle($data['title']);
-        $post->setContent($data['content']);
-        $post->setDescription($data['description']);
-        $post->setTag($data['tag']);
-        $post->setCategory($data['category']);
-        $post->setUser($data['user']);
-        $post->setStatus($data['status']);
+        $post = $hydrator->hydrate($data, $post);
         if($persist){
             $this->em->persist($post);
             $this->em->flush();
