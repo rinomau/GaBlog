@@ -83,6 +83,15 @@ return array(
     'service_manager' => array(
         'factories' => array(
             'translator' => 'Zend\I18n\Translator\TranslatorServiceFactory',
+            'categoryService' => function($sl){
+                return new \GaBlog\Service\CategoryService($sl->get('Doctrine\ORM\EntityManager'));
+            },
+            'postService' => function($sl){
+                return new \GaBlog\Service\PostService($sl->get('Doctrine\ORM\EntityManager'));
+            },
+            'commentService' => function($sl){
+                return new \GaBlog\Service\CommentService($sl->get('Doctrine\ORM\EntityManager'));
+            }
         ),
     ),
     'translator' => array(

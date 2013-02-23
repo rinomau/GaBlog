@@ -19,10 +19,9 @@ class CategoryController
      */
     public function newAction()
     {
-        $form = $category = $this->getServiceLocator()->get('gablog_form_category');
+        $form = $this->getServiceLocator()->get('gablog_form_category');
         if($this->params('id')){
-            //@TODO use Service Locator!
-            $service = new \GaBlog\Service\CategoryService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
+            $service = $this->getServiceLocator()->get('categoryService');
             $category = $service->find($this->params('id'));
             $form->populateValues($category->toArray());
         }
@@ -39,8 +38,7 @@ class CategoryController
     {
         $form = $category = $this->getServiceLocator()->get('gablog_form_category');
         $request = $this->getRequest();
-        //@TODO use Service Locator!
-        $service = new \GaBlog\Service\CategoryService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
+        $service = $this->getServiceLocator()->get('categoryService');
         if ($request->isPost()) {
             $form->setData($request->getPost());
             $data = array(
@@ -66,8 +64,7 @@ class CategoryController
      */
     public function listAction()
     {
-        //@TODO use Service Locator!
-        $service = new \GaBlog\Service\CategoryService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
+        $service = $this->getServiceLocator()->get('categoryService');
         $categories = $service->find();
         return new ViewModel(array(
             'categories' => $categories,
@@ -79,8 +76,7 @@ class CategoryController
      */
     public function delAction()
     {
-        //@TODO use Service Locator!
-        $service = new \GaBlog\Service\CategoryService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
+        $service = $this->getServiceLocator()->get('categoryService');
         $service->delete($this->getRequest()->getPost('id'));
         return false;
     }

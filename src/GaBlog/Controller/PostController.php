@@ -20,12 +20,8 @@ class PostController
     public function newAction()
     {
         $form = $this->getServiceLocator()->get('gablog_form_post');
-
-        //@TODO Use Category Service
-        $categories = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
-        ->getRepository('GaBlog\Entity\Category')->findAll();
-        //@TODO Use service Locator!
-        $service = new \GaBlog\Service\PostService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
+        $categories = $this->getServiceLocator()->get('categoryService')->find();
+        $service = $this->getServiceLocator()->get('postService');
         if($categories){
             foreach($categories as $category){
                 $params[$category->getId()] = $category->getName();
@@ -51,12 +47,8 @@ class PostController
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost());
-
-            //@TODO Use Category Service!
-            $category = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')
-            ->getRepository('GaBlog\Entity\Category')->find($form->get('categoryId')->getValue());
-            //@TODO Use service Locator!
-            $service = new \GaBlog\Service\PostService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
+            $category = $this->getServiceLocator()->get('categoryService')->find($form->get('categoryId')->getValue());
+            $service = $this->getServiceLocator()->get('postService');
             $data = array(
                 'dateTimeCreated' => new \DateTime(),
                 'id' => $form->get('id')->getValue(),
@@ -83,8 +75,7 @@ class PostController
      */
     public function listAction()
     {
-        //@TODO Use service Locator!
-        $service = new \GaBlog\Service\PostService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
+        $service = $this->getServiceLocator()->get('postService');
         $posts = $service->find();
         return new ViewModel(array(
             'posts' => $posts,
@@ -97,8 +88,7 @@ class PostController
      */
     public function delAction()
     {
-        //@TODO Use service Locator!
-        $service = new \GaBlog\Service\PostService($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
+        $service = $this->getServiceLocator()->get('postService');
         $service->delete($this->getRequest()->getPost('id'));
         return false;
     }
